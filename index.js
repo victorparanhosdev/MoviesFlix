@@ -50,7 +50,7 @@ class DadosMovies {
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w300${dado.poster_path}`
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dado.title}`
             row.querySelector(".movie-title").textContent = dado.title
-            row.querySelector(".movie-type").textContent = dado.genre_ids
+            row.querySelector(".movie-type").textContent = `${IdentificadorDeGenero(dado.genre_ids)}`
             row.querySelector(".movie-language").textContent = `${VerificarIdioma(dado.original_language)}`
             row.querySelector(".movie-release").textContent = `Data de Lançamento: ${converterData(dado.release_date)}`
             row.querySelector(".movie-description").textContent = dado.overview
@@ -89,8 +89,79 @@ buttonSearch.addEventListener("click", (event)=> {
     const Dados = new DadosMovies();
     Dados.GetMovies(value)
 
+  
+
 
 })
+
+const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNGYwMDY5ZGRhMDg0OWI3ZDNiODg5MTg5NTY2ZWQ4MiIsInN1YiI6IjY0OTFmZjVjYzNjODkxMDBhZTUyYmQ2OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.V0rnkuKqr86IOKVuI8g8ee5OMOdKVw-R_Izg7npBiRk'
+    }
+  };
+
+async function IdentificadorDeGenero(gen){
+    const genre = await fetch('https://api.themoviedb.org/3/genre/movie/list?language=pt', options)
+    .then(response => response.json())
+    .then(response => response.genres)
+    .catch(err => console.error(err));
+
+
+ const user = Array.from(gen).forEach(dado => {
+
+     switch (dado) {
+         case 28:
+             return "Ação"
+         case 12:
+             return "Aventura"
+         case 16:
+             return "Animação"
+         case 35:
+             return "Comédia"
+         case 80:
+             return "Crime"
+         case 99:
+             return "Documentário"
+         case 18:
+             return "Drama"
+         case 10751:
+             return "Família"
+         case 14:
+             return "Fantasia"
+         case 36:
+             return "História"
+         case 27:
+             return "Terror"
+         case 10402:
+             return "Música"
+         case 9648:
+             return "Mistério"
+         case 10749:
+             return "Romance"
+         case 878:
+             return "Ficção científica"
+         case 10770:
+             return "Cinema TV"
+         case 53:
+             return "Thriller"
+         case 10752:
+             return "Guerra"
+         case 37:
+             return "Faroeste"
+         default:
+             return "Desconhecido"
+     }
+   })
+   
+   console.log(user)
+
+}
+  
+  
+
+
 
 
 
