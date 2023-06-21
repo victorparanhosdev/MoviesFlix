@@ -1,0 +1,116 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
+  background-color: hsl(217, 40%, 26%)
+}
+
+
+#search-form {
+  display: flex;
+  gap: 1rem;
+}
+.container {
+  width: min(120rem, 90%);
+  margin: 2rem auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 1rem black;
+}
+
+
+h1 {
+  padding: 2rem 0;
+  text-align: center;
+  color: #333;
+  font-size: clamp(1.4rem, 4vw + 1rem, 3.2rem);
+}
+
+form {
+  margin-bottom: 2rem;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.6rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+
+#movies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.card {
+  max-width: 25rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0px 2px 1rem 0.3rem rgb(0 0 0 / 40%);
+  margin: 2rem auto;
+  transition-property: scale, opacity;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+#movies:has(.card:hover) .card:not(:hover){
+  opacity: 0.85;
+  scale: 0.98;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.movie-title {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.movie-type, .movie-language, .movie-release {
+  font-size: 1.4rem;
+  color: #777;
+}
+
+.movie-description {
+  margin: 1rem 0;
+  font-size: 1.4rem;
+  line-height: 1.5rem;
+}
