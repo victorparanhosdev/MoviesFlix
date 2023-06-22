@@ -20,11 +20,11 @@ class DadosMovies {
         document.querySelectorAll("#movies .card").forEach(card => card.remove())
     }
 
-   
+  
 
     searchMovies(dados){
-        this.removeHTML()  
 
+        this.removeHTML()  
         Array.from(dados).forEach(dado => {
 
             function VerificarIdioma(valor){
@@ -45,12 +45,13 @@ class DadosMovies {
                 return dataconvertida
 
             }
-
+          
             let row = this.createHTML()
+            IdentificadorDeGenero(dado.genre_ids)
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w300${dado.poster_path}`
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dado.title}`
             row.querySelector(".movie-title").textContent = dado.title
-            row.querySelector(".movie-type").textContent = `${IdentificadorDeGenero(dado.genre_ids)}`
+            row.querySelector(".movie-type").textContent = `AMA`
             row.querySelector(".movie-language").textContent = `${VerificarIdioma(dado.original_language)}`
             row.querySelector(".movie-release").textContent = `Data de Lançamento: ${converterData(dado.release_date)}`
             row.querySelector(".movie-description").textContent = dado.overview
@@ -65,10 +66,7 @@ class DadosMovies {
 
     async GetMovies(query){
         const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=pt-BR`;
-        console.log(url)
-
         const dados = await fetch(url).then(res => res.json()).then(data => data.results)
-        console.log(dados)
         this.searchMovies(dados)   
         
       
@@ -105,60 +103,24 @@ const options = {
 async function IdentificadorDeGenero(gen){
     const genre = await fetch('https://api.themoviedb.org/3/genre/movie/list?language=pt', options)
     .then(response => response.json())
-    .then(response => response.genres)
+    .then(response => {
+       converteIDGenero(gen, response.genres)
+    })
     .catch(err => console.error(err));
 
-
- const user = Array.from(gen).forEach(dado => {
-
-     switch (dado) {
-         case 28:
-             return "Ação"
-         case 12:
-             return "Aventura"
-         case 16:
-             return "Animação"
-         case 35:
-             return "Comédia"
-         case 80:
-             return "Crime"
-         case 99:
-             return "Documentário"
-         case 18:
-             return "Drama"
-         case 10751:
-             return "Família"
-         case 14:
-             return "Fantasia"
-         case 36:
-             return "História"
-         case 27:
-             return "Terror"
-         case 10402:
-             return "Música"
-         case 9648:
-             return "Mistério"
-         case 10749:
-             return "Romance"
-         case 878:
-             return "Ficção científica"
-         case 10770:
-             return "Cinema TV"
-         case 53:
-             return "Thriller"
-         case 10752:
-             return "Guerra"
-         case 37:
-             return "Faroeste"
-         default:
-             return "Desconhecido"
-     }
-   })
-   
-   console.log(user)
-
 }
-  
+
+function converteIDGenero(valor1, valor2){
+    const resultado = Array.from(valor1).map(id => {
+        const elemento = Array.from(valor2).find(item => item.id === id);
+        return elemento.name
+    })
+
+    
+}   
+
+
+
   
 
 
