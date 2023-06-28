@@ -35,18 +35,50 @@ class DadosMovies {
 
         }
 
-   
-          
+
+        Array.from(dados).forEach(async extrairID => {
+        
+            const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}&language=pt-BR`
+            const dado = await fetch(url).then(res => res.json()).then(data => data)
+      
             let row = this.createHTML()
-            
-            row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${dados.poster_path}`
-            row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dados.title}`
-            row.querySelector(".movie-title").textContent = dados.title
-            row.querySelector(".movie-type").textContent = `Genero`
-            row.querySelector(".movie-language").textContent = `Lingua`
-            row.querySelector(".movie-release").textContent = `Data de Lançamento: ${converterData(dados.release_date)}`
-            row.querySelector(".movie-description").textContent = dados.overview
+
+            async function GeneneroSelected(genero){
+
+               const lista =  Array.from(genero).map(Ongenero =>{
+                        return' ' + Ongenero.name 
+                })
+
+                return lista
+
+            }
+
+            async function LinguaSelected(linguas){
+
+                const lista =  Array.from(linguas).map(lingua =>{
+                         return' ' + lingua.english_name
+                 })
+ 
+                 return lista
+ 
+             }
+      
+     
+             
+
+            row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${dado.poster_path}`
+            row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dado.title}`
+            row.querySelector(".movie-title").textContent = dado.title
+            row.querySelector(".movie-type").textContent = `${await GeneneroSelected(dado.genres)}`
+            row.querySelector(".movie-language").textContent = `${await LinguaSelected(dado.spoken_languages)}`
+            row.querySelector(".movie-release").textContent = `Data de Lançamento: ${converterData(dado.release_date)}`
+            row.querySelector(".movie-description").textContent = dado.overview
             document.querySelector("#movies").append(row)
+
+            
+        })
+          
+          
             
         
       
@@ -59,23 +91,9 @@ class DadosMovies {
         const dados = await fetch(url).then(res => res.json()).then(data => data.results)
 
       
-        this.GetID(dados)
+        this.searchMovies(dados)
     }
-
-    async GetID(id){
-
-        Array.from(id).forEach(async extrairID => {
-        
-            const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}`
-            const dados = await fetch(url).then(res => res.json()).then(data => data)
-
-            this.searchMovies(dados)
-        })
-       
-       
-     
-    }
-
+ 
 
 
 }
