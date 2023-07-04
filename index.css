@@ -69,6 +69,11 @@ button:hover {
   grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
   justify-items: center;
   gap: 1.5rem;
+
+}
+
+#movies:has(.card):hover .card:not(:hover){
+  opacity: 0.9;
 }
 
 .card {
@@ -77,9 +82,8 @@ button:hover {
   background-color: #fff;
   border-radius: 0.5rem;
   box-shadow: 0px 2px 1rem 0.3rem rgb(0 0 0 / 30%);
-  transition-property: box-shadow;
-  transition-duration: 0.3s;
-  
+  transition: box-shadow 0.3s, opacity 0.5s;
+
 
 }
 
@@ -88,14 +92,18 @@ button:hover {
 }
 
 .card img {
+  height: 100%;
   width: 100%;
-  height: auto;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
+  object-fit: cover;
+  object-position: top center;
  
 }
 
-
+.card-img {
+  height: 35rem;
+}
 .card-content {
   display: grid;
   align-content: space-between;

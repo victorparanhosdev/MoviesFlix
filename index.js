@@ -12,8 +12,10 @@ class DadosMovies {
       
       <div class="card-content">
         <h2 class="movie-title">Título do Filme</h2>
+        <div class="box-movie-legend">
         <p class="movie-details"><span class="movie-type">Terror</span> | <span class="movie-language">Português</span> | <span class="movie-release">Data de Lançamento: 01/01/2023</span></p>
         <p class="movie-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam earum odio tempora maiores, neque exercitationem quos impedit ratione magni! Dolorum itaque in eligendi autem amet est officia, architecto culpa necessitatibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse odit optio itaque officia aspernatur enim animi quos nulla aperiam cum quasi reiciendis voluptas explicabo atque, voluptatem amet repellat incidunt sapiente. Descrição do filme Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
       </div>`
 
         return div
