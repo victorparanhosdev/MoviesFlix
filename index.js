@@ -6,12 +6,15 @@ class DadosMovies {
     createHTML() {
         const div = document.createElement('div')
         div.classList.add("card")
-        div.innerHTML = `<img src="imagem_do_filme.jpg" alt="Imagem do Filme">
-        <div class="card-content">
-          <h2 class="movie-title">Título do Filme</h2>
-          <p class="movie-details"><span class="movie-type">Terror</span> | <span class="movie-language">Português</span> | <span class="movie-release">Data de Lançamento: 01/01/2023</span></p>
-          <p class="movie-description">Descrição do filme Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>`
+        div.innerHTML = `<div class="card-img">
+        <img src="https://image.tmdb.org/t/p/w300/AfwqKLQwjgPu8bIL1mqhHTlnQv0.jpg" alt="Imagem do Filme">
+      </div>
+      
+      <div class="card-content">
+        <h2 class="movie-title">Título do Filme</h2>
+        <p class="movie-details"><span class="movie-type">Terror</span> | <span class="movie-language">Português</span> | <span class="movie-release">Data de Lançamento: 01/01/2023</span></p>
+        <p class="movie-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam earum odio tempora maiores, neque exercitationem quos impedit ratione magni! Dolorum itaque in eligendi autem amet est officia, architecto culpa necessitatibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse odit optio itaque officia aspernatur enim animi quos nulla aperiam cum quasi reiciendis voluptas explicabo atque, voluptatem amet repellat incidunt sapiente. Descrição do filme Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>`
 
         return div
 
@@ -52,6 +55,11 @@ class DadosMovies {
                 })
                 return lista
             }
+
+            if(dado.poster_path == undefined || (dado.overview == '' || undefined )){
+                return
+            }
+            
 
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${dado.poster_path}`
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dado.title}`
