@@ -6,7 +6,7 @@ class DadosMovies {
     createHTML() {
         const div = document.createElement('div')
         div.classList.add("card")
-        div.innerHTML = ` <img src="imagem_do_filme.jpg" alt="Imagem do Filme">
+        div.innerHTML = `<img src="imagem_do_filme.jpg" alt="Imagem do Filme">
         <div class="card-content">
           <h2 class="movie-title">Título do Filme</h2>
           <p class="movie-details"><span class="movie-type">Terror</span> | <span class="movie-language">Português</span> | <span class="movie-release">Data de Lançamento: 01/01/2023</span></p>
@@ -32,39 +32,26 @@ class DadosMovies {
             let [ano, mes, dia] = data
             let dataconvertida = `${dia}/${mes}/${ano}`
             return dataconvertida
-
         }
-
 
         Array.from(dados).forEach(async extrairID => {
 
             const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}&language=pt-BR`
             const dado = await fetch(url).then(res => res.json()).then(data => data)
-
             let row = this.createHTML()
-
             async function GeneneroSelected(genero) {
-
                 const lista = Array.from(genero).map(Ongenero => {
                     return ' ' + Ongenero.name
                 })
-
                 return lista
-
             }
 
             async function LinguaSelected(linguas) {
-
                 const lista = Array.from(linguas).map(lingua => {
                     return ' ' + lingua.english_name
                 })
-
                 return lista
-
             }
-
-
-
 
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${dado.poster_path}`
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dado.title}`
@@ -74,11 +61,12 @@ class DadosMovies {
             row.querySelector(".movie-release").textContent = `Data de Lançamento: ${converterData(dado.release_date)}`
             row.querySelector(".movie-description").textContent = dado.overview
             document.querySelector("#movies").append(row)
-
-
+            
+           
+            
         })
 
-
+     
 
 
 
@@ -108,12 +96,13 @@ buttonSearch.addEventListener("click", (event) => {
     Dados.GetMovies(value)
 })
 
-const legend = document.querySelector(".movie-description")
 
-legend.addEventListener("click", (event)=> {
-    console.log(event)
-    //event.currentTarget.classList.toggle("expand")
-    //legend.classList.toggle("expand")
+const legend = document.querySelectorAll(".movie-description")
+
+legend.forEach(legendas => {
+    legendas.addEventListener("click", (event) => {     
+        legendas.classList.toggle("expand")
+    })
 })
 
 new DadosMovies()
