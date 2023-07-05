@@ -28,13 +28,22 @@ class DadosMovies {
         function converterData(valor) {
             let data = valor.split("-")
             let [ano, mes, dia] = data
-            let dataconvertida = `${dia || '00'}/${mes || '00'}/${ano || '00'}`
+            let dataconvertida = `${dia}/${mes}/${ano}`
+
+            if((ano || mes || dia) == undefined){
+                dataconvertida = 'Sem Data'
+            }
+            
             return dataconvertida
         }
-        Array.from(dados).forEach(async extrairID => {
 
+    
+
+        Array.from(dados).forEach(async extrairID => {
+     
             const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}&language=pt-BR`
             const dado = await fetch(url).then(res => res.json()).then(data => data)
+
             let row = this.createHTML()
 
             async function GeneneroSelected(genero) {
@@ -64,16 +73,30 @@ class DadosMovies {
             row.querySelector(".movie-release").textContent = `Data de Lançamento: ${converterData(dado.release_date)}`
             row.querySelector(".movie-description").textContent = dado.overview
             document.querySelector("#movies").append(row)
+   
             
-           
-            
+            if(dados.length < 3){
+                document.querySelector(".card").classList.add("width")
+            }   
         })
+       
 
     }
     async GetMovies(query) {
+
+       
         const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey.key}&query=${encodeURIComponent(query)}&language=pt-BR`;
         const dados = await fetch(url).then(res => res.json()).then(data => data.results)
+       
+        if(dados.length == 0){
+            alert("Filme não encontrado")
+            boxSearch.value = ''
+            return
+        }
+      
+
         this.searchMovies(dados)
+        boxSearch.value = ''
     }
 }
 const buttonSearch = document.querySelector("#button-search")
@@ -83,8 +106,15 @@ buttonSearch.addEventListener("click", (event) => {
     event.preventDefault();
     const { value } = boxSearch
     const Dados = new DadosMovies();
+    if(value == ''){
+        alert("Por favor, preencha os dados para pesquisa")
+        return
+    }
     Dados.GetMovies(value)
+   
+ 
 })
+
 
 new DadosMovies()
 

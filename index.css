@@ -86,6 +86,12 @@ button:hover {
 
 
 }
+.card.width {
+  max-width: 30rem;
+}
+.card.width .card-img{
+  height: auto;
+}
 
 .card:hover{
   box-shadow: 0px 2px 1rem 0.3rem hsl(217, 40%, 26%);
