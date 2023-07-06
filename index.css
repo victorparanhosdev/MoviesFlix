@@ -145,6 +145,7 @@ button:hover {
 }
 
 .movie-description.expand {
+  overflow: hidden;
   max-height: none;
   opacity: 1;
   position: absolute;
