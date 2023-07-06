@@ -141,11 +141,11 @@ button:hover {
   margin: 1rem 0;
   font-size: clamp(1.2rem, 1vw + 1rem, 1.4rem);
   line-height: 1.5rem;
-  
+  scale: 1;
 }
 
 .movie-description.expand {
-  overflow: hidden;
+  
   max-height: none;
   opacity: 1;
   position: absolute;
