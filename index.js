@@ -13,7 +13,7 @@ class DadosMovies {
         <h2 class="movie-title">Título do Filme</h2>
         <div class="box-movie-legend">
         <p class="movie-details"><span class="movie-type">Terror</span> | <span class="movie-language">Português</span> | <span class="movie-release">Data de Lançamento: 01/01/2023</span></p>
-        <p class="movie-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam earum odio tempora maiores, neque exercitationem quos impedit ratione magni! Dolorum itaque in eligendi autem amet est officia, architecto culpa necessitatibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse odit optio itaque officia aspernatur enim animi quos nulla aperiam cum quasi reiciendis voluptas explicabo atque, voluptatem amet repellat incidunt sapiente. Descrição do filme Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p class="movie-description">Descrição</p>
         </div>
       </div>`
 
@@ -31,16 +31,16 @@ class DadosMovies {
             let dataconvertida = `${dia}/${mes}/${ano}`
 
             if((ano || mes || dia) == undefined){
-                dataconvertida = 'Sem Data'
+                return ''
             }
             
-            return dataconvertida
+            return `Data de Lançamento: ${dataconvertida}`
         }
 
-    
+        let contador = 0
 
         Array.from(dados).forEach(async extrairID => {
-     
+           
             const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}&language=pt-BR`
             const dado = await fetch(url).then(res => res.json()).then(data => data)
 
@@ -60,34 +60,57 @@ class DadosMovies {
                 return lista
             }
 
-            if(dado.poster_path == undefined || (dado.overview == '' || undefined )){
-                return
+            if(dado.poster_path == null){
+              return contador++
             }
             
-
+            
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${dado.poster_path}`
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dado.title}`
             row.querySelector(".movie-title").textContent = dado.title
             row.querySelector(".movie-type").textContent = `${await GeneneroSelected(dado.genres) || 'Desconhecido'}`
             row.querySelector(".movie-language").textContent = `${await LinguaSelected(dado.spoken_languages) || 'Desconhecido'}`
-            row.querySelector(".movie-release").textContent = `Data de Lançamento: ${converterData(dado.release_date)}`
+            row.querySelector(".movie-release").textContent = `${converterData(dado.release_date)}`
             row.querySelector(".movie-description").textContent = dado.overview
             document.querySelector("#movies").append(row)
-   
+      
             
             if(dados.length < 3){
                 document.querySelector(".card").classList.add("width")
-            }   
-        })
+            } 
+
+           
        
+            
+            contador++
+
+            if(contador == dados.length){
+                let cards = document.querySelectorAll(".card")
+
+                for(let card of cards) {
+                    card.querySelector(".movie-description").addEventListener("click", (event)=> {
+                        event.target.classList.toggle('expand')
+                    })
+                }
+                   
+        
+               
+            }
+        
+        })
+
 
     }
+
+   
+
+
     async GetMovies(query) {
 
        
         const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey.key}&query=${encodeURIComponent(query)}&language=pt-BR`;
         const dados = await fetch(url).then(res => res.json()).then(data => data.results)
-       
+   
         if(dados.length == 0){
             alert("Filme não encontrado")
             boxSearch.value = ''
@@ -114,7 +137,6 @@ buttonSearch.addEventListener("click", (event) => {
    
  
 })
-
 
 new DadosMovies()
 

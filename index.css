@@ -77,6 +77,8 @@ button:hover {
 }
 
 .card {
+  position: relative;
+  width: 100%;
   display: grid;
   margin: 0 auto;
   background-color: #fff;
@@ -132,16 +134,27 @@ button:hover {
   max-height: 4rem;
   overflow: hidden;
   opacity: 0.6;
-  transition: max-height 0.3s, opacity 0.3s;
+  transition-property: scale, opacity, bottom, left;
+  transition-duration: 0.4s;
   cursor: pointer;
 
   margin: 1rem 0;
   font-size: clamp(1.2rem, 1vw + 1rem, 1.4rem);
   line-height: 1.5rem;
+  
 }
 
 .movie-description.expand {
   max-height: none;
   opacity: 1;
+  position: absolute;
+  padding: 1rem;
+  border-radius: 1rem;
+  left: 0;
+  bottom: 0;
+  background-color: hsl(108, 14%, 70%);
+  scale: 1.01;
 }
+
+
 
