@@ -113,6 +113,7 @@ class DadosMovies {
         if(dados.length == 0){
             alert("Filme não encontrado")
             boxSearch.value = ''
+            boxSearch.focus()
             return
         }
       
@@ -130,6 +131,7 @@ buttonSearch.addEventListener("click", (event) => {
     const Dados = new DadosMovies();
     if(value == ''){
         alert("Por favor, preencha os dados para pesquisa")
+        boxSearch.focus()
         return
     }
     Dados.GetMovies(value)
