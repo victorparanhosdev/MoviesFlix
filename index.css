@@ -187,10 +187,10 @@ input[type="text"]:focus{
   background: url("./background.jpg") no-repeat;
   background-position: center;
   background-size: cover;
-  display: grid;
-  place-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 1;
-  padding: 5rem 1rem 2rem;;
   opacity: 0;
   visibility: hidden;
   transform: scale(0.8);
@@ -222,7 +222,7 @@ input[type="text"]:focus{
 
   border: 1px solid white;
   width: min(42rem, 98%);
-  margin: -10rem auto 0;
+  margin: auto;
   height: fit-content;
   border-radius: 0.5rem;
   background-color:hsl(0, 0%, 0%);
