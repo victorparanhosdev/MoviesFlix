@@ -15,6 +15,7 @@ class DadosMovies {
           <p class="movie-details">
             <span class="movie-type">Ação, Aventura, Animação, Ficção científica</span>
             <span class="movie-release">2018</span>
+            <span class="get-id">2018</span>
           </p>
         </div>`
 
@@ -39,14 +40,14 @@ class DadosMovies {
         }
 
         let contador = 0
-
+        let ArrayListDados = []
         Array.from(dados).forEach(async extrairID => {
            
             const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}&language=pt-BR`
             const dado = await fetch(url).then(res => res.json()).then(data => data)
-            contador++
+           
             let row = this.createHTML()
-
+            contador++
             async function GeneneroSelected(genero) {
                 const lista = Array.from(genero).map(Ongenero => {
                     return ' ' + Ongenero.name
@@ -64,13 +65,15 @@ class DadosMovies {
             if(dado.poster_path == null){
               return
             }
-            
+          
+            ArrayListDados.push(dado)
             
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${dado.poster_path}`
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dado.title}`
             row.querySelector(".movie-title").textContent = dado.title
             row.querySelector(".movie-type").textContent = `${await GeneneroSelected(dado.genres) || 'Desconhecido'}`
             row.querySelector(".movie-release").textContent = `${converterData(dado.release_date)}`
+            row.querySelector(".get-id").textContent = dado.id
             document.querySelector("#movies").append(row)
       
          
@@ -78,32 +81,35 @@ class DadosMovies {
                 document.querySelectorAll(".card").forEach(card => card.classList.add("width"))
             } 
 
-           
-       
-            
+            if(dados.length == contador){
+                this.expandCard(ArrayListDados)
+                document.querySelectorAll("#movies").forEach(card=> card.addEventListener("click", ()=> {
+                    document.querySelector(".expand-card").classList.add("show")
+                    document.body.style.overflow = "hidden"
+                }))
 
-            if(contador == dados.length){
-                this.expandCard()
-        
-               
+
             }
+            
+            
         
         })
+        
 
 
     }
 
-   
+    expandCard(dados){
+     console.log(dados)
 
-    expandCard(){
-        let cards = document.querySelectorAll(".card")
-
-                for(let card of cards) {
-                    card.querySelector(".movie-description").addEventListener("click", (event)=> {
-                        event.target.classList.toggle('expand')
-                    })
-                }
     }
+
+    CreatedexpandHTML(){
+
+
+    }
+
+
     async GetMovies(query) {
 
        
@@ -138,13 +144,12 @@ buttonSearch.addEventListener("click", (event) => {
    
  
 })
-let cards = document.querySelectorAll(".card")
 
-for(let card of cards) {
-    card.querySelector(".movie-description").addEventListener("click", (event)=> {
-        event.target.classList.toggle('expand')
-    })
-}
+document.querySelector(".fechar").addEventListener("click", ()=> {
+    document.querySelector(".expand-card").classList.remove("show")
+    document.body.style.overflow = "initial"
+})
+
 
 new DadosMovies()
 
