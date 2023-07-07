@@ -73,9 +73,9 @@ class DadosMovies {
             row.querySelector(".movie-release").textContent = `${converterData(dado.release_date)}`
             document.querySelector("#movies").append(row)
       
-            
-            if(dados.length < 3){
-                document.querySelector(".card").classList.add("width")
+            console.log(dados)
+            if(dados.length <= 5){
+                document.querySelectorAll(".card").forEach(card => card.classList.add("width"))
             } 
 
            
