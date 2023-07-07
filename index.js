@@ -83,9 +83,16 @@ class DadosMovies {
 
             if(dados.length == contador){
                 this.expandCard(ArrayListDados)
-                document.querySelectorAll("#movies").forEach(card=> card.addEventListener("click", ()=> {
+
+                document.querySelectorAll(".card").forEach(card=> card.addEventListener("click", (event)=> {
                     document.querySelector(".expand-card").classList.add("show")
                     document.body.style.overflow = "hidden"
+                    const idMovies = event.currentTarget.querySelector(".get-id").textContent                    
+                    const newArray = ArrayListDados.filter((movie) => {
+                        return movie.id === Number(idMovies); // Retorna true apenas para elementos pares
+                      });
+                    
+                   this.expandCard(newArray)
                 }))
 
 
@@ -99,14 +106,21 @@ class DadosMovies {
 
     }
 
+
     expandCard(dados){
-     console.log(dados)
+        console.log(dados)
+
+       const BackGroundExpand = document.querySelector(".expand-card")
+
+       BackGroundExpand.style.backgroundImage = `url(https://image.tmdb.org/t/p/w200/${dados[0].backdrop_path})`
+
+
 
     }
 
-    CreatedexpandHTML(){
+    CreatedexpandHTML(id){
 
-
+       
     }
 
 
