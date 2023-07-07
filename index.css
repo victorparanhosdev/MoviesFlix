@@ -92,7 +92,7 @@ input[type="text"]:focus{
 }
 
 #movies:has(.card):hover .card:not(:hover){
-  opacity: 0.9;
+  opacity: 0.6;
 }
 
 .card {
@@ -112,7 +112,7 @@ input[type="text"]:focus{
 }
 
 .card:hover{
-  box-shadow: 0px 2px 1rem 0.3rem hsl(217, 40%, 26%);
+  box-shadow: 0px 0px 10px 1px hsl(217, 40%, 26%);
 }
 .card-img {
   height: 27rem;
