@@ -6,16 +6,17 @@ class DadosMovies {
         const div = document.createElement('div')
         div.classList.add("card")
         div.innerHTML = `<div class="card-img">
-        <img src="https://image.tmdb.org/t/p/w300/AfwqKLQwjgPu8bIL1mqhHTlnQv0.jpg" alt="Imagem do Filme">
+        <img src="https://image.tmdb.org/t/p/w200/ybQSBSrINtjWsJQ6Ih8sva8HlEZ.jpg"
+          alt="Imagem do filme Homem-Aranha: No Aranhaverso">
       </div>
-      
       <div class="card-content">
-        <h2 class="movie-title">Título do Filme</h2>
+        <h2 class="movie-title">Homem-Aranha: No Aranhaverso</h2>
         <div class="box-movie-legend">
-        <p class="movie-details"><span class="movie-type">Terror</span> | <span class="movie-language">Português</span> | <span class="movie-release">Data de Lançamento: 01/01/2023</span></p>
-        <p class="movie-description">Descrição</p>
-        </div>
-      </div>`
+          <p class="movie-details">
+            <span class="movie-type">Ação, Aventura, Animação, Ficção científica</span>
+            <span class="movie-release">2018</span>
+          </p>
+        </div>`
 
         return div
 
@@ -28,13 +29,13 @@ class DadosMovies {
         function converterData(valor) {
             let data = valor.split("-")
             let [ano, mes, dia] = data
-            let dataconvertida = `${dia}/${mes}/${ano}`
+            let dataconvertida = `${ano}`
 
-            if((ano || mes || dia) == undefined){
+            if(ano == undefined){
                 return ''
             }
             
-            return `Data de Lançamento: ${dataconvertida}`
+            return `${dataconvertida}`
         }
 
         let contador = 0
@@ -43,7 +44,7 @@ class DadosMovies {
            
             const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}&language=pt-BR`
             const dado = await fetch(url).then(res => res.json()).then(data => data)
-
+            contador++
             let row = this.createHTML()
 
             async function GeneneroSelected(genero) {
@@ -61,7 +62,7 @@ class DadosMovies {
             }
 
             if(dado.poster_path == null){
-              return contador++
+              return
             }
             
             
@@ -69,9 +70,7 @@ class DadosMovies {
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dado.title}`
             row.querySelector(".movie-title").textContent = dado.title
             row.querySelector(".movie-type").textContent = `${await GeneneroSelected(dado.genres) || 'Desconhecido'}`
-            row.querySelector(".movie-language").textContent = `${await LinguaSelected(dado.spoken_languages) || 'Desconhecido'}`
             row.querySelector(".movie-release").textContent = `${converterData(dado.release_date)}`
-            row.querySelector(".movie-description").textContent = dado.overview
             document.querySelector("#movies").append(row)
       
             
@@ -82,17 +81,9 @@ class DadosMovies {
            
        
             
-            contador++
 
             if(contador == dados.length){
-                let cards = document.querySelectorAll(".card")
-
-                for(let card of cards) {
-                    card.querySelector(".movie-description").addEventListener("click", (event)=> {
-                        event.target.classList.toggle('expand')
-                    })
-                }
-                   
+                this.expandCard()
         
                
             }
@@ -104,7 +95,15 @@ class DadosMovies {
 
    
 
+    expandCard(){
+        let cards = document.querySelectorAll(".card")
 
+                for(let card of cards) {
+                    card.querySelector(".movie-description").addEventListener("click", (event)=> {
+                        event.target.classList.toggle('expand')
+                    })
+                }
+    }
     async GetMovies(query) {
 
        
@@ -137,6 +136,13 @@ buttonSearch.addEventListener("click", (event) => {
    
  
 })
+let cards = document.querySelectorAll(".card")
+
+for(let card of cards) {
+    card.querySelector(".movie-description").addEventListener("click", (event)=> {
+        event.target.classList.toggle('expand')
+    })
+}
 
 new DadosMovies()
 
