@@ -86,7 +86,7 @@ class DadosMovies {
 
                 document.querySelectorAll(".card").forEach(card=> card.addEventListener("click", (event)=> {
                     document.querySelector(".expand-card").classList.add("show")
-                    document.body.style.overflow = "hidden"
+                    document.querySelector("#movies").style.overflow = "hidden"
                     const idMovies = event.currentTarget.querySelector(".get-id").textContent                    
                     const newArray = ArrayListDados.filter((movie) => {
                         return movie.id === Number(idMovies);
@@ -156,7 +156,7 @@ buttonSearch.addEventListener("click", (event) => {
 
 document.querySelector(".fechar").addEventListener("click", ()=> {
     document.querySelector(".expand-card").classList.remove("show")
-    document.body.style.overflow = "initial"
+    document.querySelector("#movies").style.overflow = "initial"
 })
 
 const heartOff = document.querySelector(".fav-OFF")
