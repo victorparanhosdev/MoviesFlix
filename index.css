@@ -160,26 +160,6 @@ input[type="text"]:focus{
   font-weight: 700;
 }
 
-.movie-description {
-  text-align: justify;
-  max-height: 4rem;
-  overflow: hidden;
-  opacity: 0.6;
-  transition-property: opacity;
-  transition-duration: 0.4s;
-  cursor: pointer;
-
-  margin: 1rem 0;
-  font-size: clamp(1.2rem, 1vw + 1rem, 1.4rem);
-  line-height: 1.5rem;
-
-}
-
-.movie-description.expand {
-  max-height: none;
-  opacity: 1;
-
-}
 
 .expand-card {
   padding: 1rem;
@@ -211,7 +191,6 @@ input[type="text"]:focus{
   position: relative;
   width: min(40rem, 80vw);
   margin: auto;
-  height: fit-content;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
 
@@ -288,7 +267,7 @@ input[type="text"]:focus{
 }
 
 .fav-ON::before {
-
+  color: red;
   transition: color .3s ease;
 }
 .fav-ON:hover::before{
