@@ -82,7 +82,7 @@ class DadosMovies {
             } 
 
             if(dados.length == contador){
-                this.expandCard(ArrayListDados)
+          
 
                 document.querySelectorAll(".card").forEach(card=> card.addEventListener("click", (event)=> {
                     document.querySelector(".expand-card").classList.add("show")
@@ -109,8 +109,7 @@ class DadosMovies {
 
     expandCard(dados){
 
-       const BackGroundExpand = document.querySelector(".expand-card")
-       BackGroundExpand.style.backgroundImage = `url(https://image.tmdb.org/t/p/w200/${dados[0].backdrop_path})`
+       console.log(dados)
 
     }
 
@@ -158,6 +157,19 @@ buttonSearch.addEventListener("click", (event) => {
 document.querySelector(".fechar").addEventListener("click", ()=> {
     document.querySelector(".expand-card").classList.remove("show")
     document.body.style.overflow = "initial"
+})
+
+const heartOff = document.querySelector(".fav-OFF")
+const heartOn = document.querySelector(".fav-ON")
+
+heartOff.addEventListener("click", ()=> {
+    heartOn.style.display = 'block'
+   heartOff.style.display = 'none'
+   
+})
+heartOn.addEventListener("click", ()=> {
+    heartOff.style.display = 'block'
+    heartOn.style.display = 'none'
 })
 
 

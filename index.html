@@ -12,30 +12,29 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
   </head>
 
   <body>
     <div class="container">
-      <div class="expand-card">
+      <div class="expand-card show">
         <div class="filme-card">
-          <div class="container-imagem">
-            <img src="https://image.tmdb.org/t/p/w500/rzdPqYx7Um4FUZeD8wpXqjAUcEm.jpg" alt="foto do filme">
-          </div>
+          <div class="botoes">
+            <div class="box-botoes">
+              <i class="fa-sharp fa-regular fa-heart fav-OFF"></i>
+              <i style="display: none;" class="fa-sharp fa-solid fa-heart fav-ON"></i>
+              <i class="fa-solid fa-xmark fechar"></i></div>
+          
+        </div>
+          <img src="https://image.tmdb.org/t/p/w500/rzdPqYx7Um4FUZeD8wpXqjAUcEm.jpg" alt="foto do filme">
           <div class="container-info">
             <h2 class="filme-titulo">Título do Filme</h2>
-            <p class="filme-descricao">
-              Descrição do filme Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit.
-            </p>
             <p class="filme-genero">Gênero: Ação, Aventura</p>
-            <p class="filme-lancamento">
-              Data de Lançamento: 25 de dezembro de 2022
-            </p>
-            <div class="botoes">
-              <button class="favoritar">Favoritar</button>
-              <button class="fechar">Fechar</button>
-              <a class="assistir-link" href="#">Assistir</a>
-          </div>
+            <p class="filme-lancamento">Data de Lançamento: 25 de dezembro de 2022</p>
+            <p class="filme-descricao">Descrição do Filme:</p>
+            <span class="filme-descricao-span"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit sapiente neque alias quis inventore molestias corrupti modi minima! Repellendus corporis ex cum ut ullam dignissimos vel rerum officiis iste consectetur. Lorem ipsum dolor, sit amet consectetur adipisicing elit. In accusantium dolorum nemo recusandae cum voluptatem reiciendis ad debitis repellendus odit eum illo voluptatum ea expedita quos, excepturi, rerum hic eaque!</span>
           </div>
         </div>
       </div>
