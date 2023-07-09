@@ -164,7 +164,8 @@ input[type="text"]:focus{
 .expand-card {
   padding: 1rem;
   position: fixed;
-  inset: 0;
+  width: 100vw;
+  height: 100vh
   display: flex;
   background-color: #000000e6;
   justify-content: center;
@@ -176,6 +177,7 @@ input[type="text"]:focus{
   transition-property: opacity, transform;
   transition: 0.2s ease-in-out;
   text-align: justify;
+  overflow: scroll;
   
 }
 
