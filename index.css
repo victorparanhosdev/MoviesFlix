@@ -188,7 +188,6 @@ input[type="text"]:focus{
 
 
 .filme-card {
-  overflow: auto;
   position: relative;
   width: min(40rem, 80vw);
   margin: auto;
