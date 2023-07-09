@@ -176,6 +176,7 @@ input[type="text"]:focus{
   transition-property: opacity, transform;
   transition: 0.2s ease-in-out;
   text-align: justify;
+  overflow: scroll;
 }
 
 .expand-card.show {
