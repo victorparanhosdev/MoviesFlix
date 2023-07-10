@@ -32,22 +32,22 @@ class DadosMovies {
             let [ano, mes, dia] = data
             let dataconvertida = `${ano}`
 
-            if(ano == undefined){
+            if (ano == undefined) {
                 return ''
             }
-            
+
             return `${dataconvertida}`
         }
 
         let contador = 0
         let ArrayListDados = []
         Array.from(dados).forEach(async extrairID => {
-           
+
             const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}&language=pt-BR`
             const dado = await fetch(url).then(res => res.json()).then(data => data)
-           
-            let row = this.createHTML()
             contador++
+            let row = this.createHTML()
+
             async function GeneneroSelected(genero) {
                 const lista = Array.from(genero).map(Ongenero => {
                     return ' ' + Ongenero.name
@@ -55,19 +55,12 @@ class DadosMovies {
                 return lista
             }
 
-            async function LinguaSelected(linguas) {
-                const lista = Array.from(linguas).map(lingua => {
-                    return ' ' + lingua.english_name
-                })
-                return lista
+            if (dado.poster_path == null) {
+                return
             }
 
-            if(dado.poster_path == null){
-              return
-            }
-          
             ArrayListDados.push(dado)
-            
+
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${dado.poster_path}`
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${dado.title}`
             row.querySelector(".movie-title").textContent = dado.title
@@ -75,63 +68,135 @@ class DadosMovies {
             row.querySelector(".movie-release").textContent = `${converterData(dado.release_date)}`
             row.querySelector(".get-id").textContent = dado.id
             document.querySelector("#movies").append(row)
-      
-         
-            if(dados.length <= 5){
+
+
+            if (dados.length <= 5) {
                 document.querySelectorAll(".card").forEach(card => card.classList.add("width"))
-            } 
+            }
 
-            if(dados.length == contador){
-          
+            if (dados.length == contador) {
 
-                document.querySelectorAll(".card").forEach(card=> card.addEventListener("click", (event)=> {
+
+                document.querySelectorAll(".card").forEach(card => card.addEventListener("click", (event) => {
                     document.querySelector(".expand-card").classList.add("show")
                     document.body.style.overflow = 'hidden'
-                    const idMovies = event.currentTarget.querySelector(".get-id").textContent                    
+                    const idMovies = event.currentTarget.querySelector(".get-id").textContent
                     const newArray = ArrayListDados.filter((movie) => {
                         return movie.id === Number(idMovies);
-                      });
-                    
-                   this.expandCard(newArray)
+                    });
+
+                    this.expandCard(newArray)
                 }))
 
 
             }
-            
-            
-        
+
+
+
         })
-        
 
 
-    }
-
-
-    expandCard(dados){
-
-       console.log(dados)
 
     }
 
-    CreatedexpandHTML(){
 
+    expandCard(dados) {
+        console.log(dados)
+        function Generos(){
+            const array = Array.from(dados[0].genres).map(gen => {
+               return " "+ gen.name
+            })
+            return array
+        }
+        function DatadeLancamento(){
+
+            let data = dados[0].release_date.split("-")
+            let [ano, mes, dia] = data
+
+            switch (Number(mes)) {
+                case 1:
+                  mes = "Janeiro";
+                  break
+                case 2:
+                  mes = "Fevereiro";
+                  break
+                case 3:
+                  mes = "Março";
+                  break
+                case 4:
+                  mes = "Abril";
+                  break
+                case 5:
+                  mes = "Maio";
+                  break
+                case 6:
+                  mes = "Junho";
+                  break
+                case 7:
+                  mes = "Julho";
+                  break
+                case 8:
+                  mes = "Agosto";
+                  break
+                case 9:
+                  mes = "Setembro";
+                  break
+                case 10:
+                  mes = "Outubro";
+                  break
+                case 11:
+                  mes = "Novembro";
+                  break
+                case 12:
+                  mes = "Dezembro";
+                  break
+                default:
+                  mes = "Mês inválido";
+              }
+
+              const dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`
+
+            return dataconvertida
+        }
+        document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dados[0].backdrop_path}`
+        if(dados[0].backdrop_path == null){
+            document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dados[0].poster_path}`
+            document.querySelector(".filme-card img").style.maxHeight = '40rem'
+        }
        
+        document.querySelector(".filme-card img").alt = `Foto do filme ${dados[0].title}`
+        document.querySelector(".filme-titulo").textContent = dados[0].title
+        document.querySelector(".filme-genero").textContent = `Gênero: ${Generos()}`
+        document.querySelector(".filme-lancamento").textContent = `${DatadeLancamento()}`
+        document.querySelector(".filme-descricao-span").textContent = `${dados[0].overview}`
+        if(dados[0].overview == "" || null){
+            document.querySelector(".filme-descricao").textContent = `Sem Descrição`
+            document.querySelector(".filme-descricao-span").removeChild()
+        }
+      
+   
+    }
+
+    CreatedexpandHTML() {
+        let div = document.createElement("div")
+        div.innerHTML = ``
+
     }
 
 
     async GetMovies(query) {
 
-       
+
         const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey.key}&query=${encodeURIComponent(query)}&language=pt-BR`;
         const dados = await fetch(url).then(res => res.json()).then(data => data.results)
-   
-        if(dados.length == 0){
+
+        if (dados.length == 0) {
             alert("Filme não encontrado")
             boxSearch.value = ''
             boxSearch.focus()
             return
         }
-      
+
 
         this.searchMovies(dados)
         boxSearch.value = ''
@@ -144,23 +209,23 @@ buttonSearch.addEventListener("click", (event) => {
     event.preventDefault();
     const { value } = boxSearch
     const Dados = new DadosMovies();
-    if(value == ''){
+    if (value == '') {
         alert("Por favor, preencha os dados para pesquisa")
         boxSearch.focus()
         return
     }
     Dados.GetMovies(value)
-   
- 
+
+
 })
 
-document.querySelectorAll(".card").forEach(card=> card.addEventListener("click", (event)=> {
+document.querySelectorAll(".card").forEach(card => card.addEventListener("click", (event) => {
     document.querySelector(".expand-card").classList.add("show")
     document.body.style.overflow = 'hidden'
-    
-  }))
 
-document.querySelector(".fechar").addEventListener("click", ()=> {
+}))
+
+document.querySelector(".fechar").addEventListener("click", () => {
     document.querySelector(".expand-card").classList.remove("show")
     document.body.style.overflow = 'initial'
 })
@@ -168,12 +233,12 @@ document.querySelector(".fechar").addEventListener("click", ()=> {
 const heartOff = document.querySelector(".fav-OFF")
 const heartOn = document.querySelector(".fav-ON")
 
-heartOff.addEventListener("click", ()=> {
+heartOff.addEventListener("click", () => {
     heartOn.style.display = 'block'
-   heartOff.style.display = 'none'
-   
+    heartOff.style.display = 'none'
+
 })
-heartOn.addEventListener("click", ()=> {
+heartOn.addEventListener("click", () => {
     heartOff.style.display = 'block'
     heartOn.style.display = 'none'
 })

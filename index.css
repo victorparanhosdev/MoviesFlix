@@ -192,11 +192,8 @@ input[type="text"]:focus{
 
 .filme-card {
   position: relative;
-  width: min(40rem, 80vw);
+  width: min(50rem, 80vw);
   margin: auto;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-
   color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
@@ -217,8 +214,9 @@ input[type="text"]:focus{
 }
 
 .filme-titulo {
+  text-align: initial;
   font-weight: 600;
-  font-size: clamp(1.8rem, 3vw + 1rem, 3rem);
+  font-size: clamp(1.6rem, 3vw + 1rem, 2.5rem);;
   margin-bottom: 1rem;
 }
 
@@ -242,19 +240,13 @@ input[type="text"]:focus{
   display: flex;
   align-items: center;
   justify-content: end;
-  gap: 1rem;
-
-
-}
-.box-botoes {
-  gap: 2rem;
-  align-items: center;
-  display: flex;
+  gap: 3rem;
   background-color: hsl(0, 0%, 15%);
-  padding: 1rem;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  padding: 1rem 2rem;
 }
+
 
 .fa-heart {
   cursor: pointer;
