@@ -167,6 +167,8 @@ class DadosMovies {
         if (dados[0].overview == "") {
             document.querySelector(".filme-descricao").textContent = `Sem Descrição`
 
+        }else{
+            document.querySelector(".filme-descricao").textContent = `Descrição do Filme:`
         }
 
 
