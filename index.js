@@ -71,10 +71,14 @@ class DadosMovies {
 
             if (dados.length <= 5) {
                 document.querySelectorAll(".card").forEach(card => card.classList.add("width"))
+               
             }
-
+            
             if (dados.length == contador) {
+                console.log(dados.length)
+                console.log(contador)
                 document.querySelectorAll(".card").forEach(card => card.addEventListener("click", (event) => {
+                    contador = 0
                     document.querySelector(".expand-card").classList.add("show")
                     document.body.style.overflow = 'hidden'
                     const idMovies = event.currentTarget.querySelector(".get-id").textContent
@@ -149,7 +153,10 @@ class DadosMovies {
         document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dados[0].backdrop_path}`
         if (dados[0].backdrop_path == null) {
             document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dados[0].poster_path}`
-            document.querySelector(".filme-card img").style.maxHeight = '40rem'
+            const elemento = document.querySelector(".filme-card img")
+            Object.assign(elemento.style, {
+                maxHeight: '38rem',
+              });
         }
 
         document.querySelector(".filme-card img").alt = `Foto do filme ${dados[0].title}`
@@ -157,9 +164,9 @@ class DadosMovies {
         document.querySelector(".filme-genero").textContent = `Gênero: ${Generos()}`
         document.querySelector(".filme-lancamento").textContent = `${DatadeLancamento()}`
         document.querySelector(".filme-descricao-span").textContent = `${dados[0].overview}`
-        if (dados[0].overview == "" || null) {
+        if (dados[0].overview == "") {
             document.querySelector(".filme-descricao").textContent = `Sem Descrição`
-            document.querySelector(".filme-descricao-span").removeChild()
+
         }
 
 
