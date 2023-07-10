@@ -292,37 +292,8 @@ input[type="text"]:focus {
   background: hsl(217, 40%, 36%);
 }
 
-.container-favorites {
-width: 100%;
-display: flex;
-justify-content: end;
-}
 
-#box-btn-favorites {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  padding: 1rem;
-  transition: color 0.4s;
-  cursor: pointer;
-  color:hsl(0, 100%, 35%);
-}
 
-#box-btn-favorites:hover {
-  color:hsl(0, 100%, 50%);
-}
-
-#box-btn-favorites i {
-  font-size: 2.3rem;
-  cursor: pointer;
-
-}
-
-#box-btn-favorites label {
-  font-weight: 700;
-  cursor: pointer;
-
-}
 
 
 
