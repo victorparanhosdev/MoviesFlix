@@ -24,20 +24,23 @@
 
 
   <div class="container">
-    <div class="container-favorites">
-      <div id="box-btn-favorites">
-        <i id="favoritos-btn" class="fa-sharp fa-regular fa-heart"></i>
-        <label>Favoritos</label>
-      </div>
-  </div>
+
     <h1>Pesquisa de Filmes</h1>
 
     <form id="search-form">
+      <div class="mais-botoes">
+        <div class="menus">
+          <span>Buscar</span>
+          <span><i class="fa-sharp fa-regular fa-heart"></i>Favoritos</span>
+        </div>
+      </div>
       <div class="box-search">
-        <input type="text" id="query" placeholder="Digite o título do filme..." />
-        <button id="button-search" type="submit">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
+        <div class="query-search">
+          <input type="text" id="query" placeholder="Digite o título do filme..." />
+          <button id="button-search" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
       </div>
     </form>
     <div id="movies"></div>
