@@ -75,8 +75,7 @@ class DadosMovies {
             }
             
             if (dados.length == contador) {
-                console.log(dados.length)
-                console.log(contador)
+
                 document.querySelectorAll(".card").forEach(card => card.addEventListener("click", (event) => {
                     contador = 0
                     document.querySelector(".expand-card").classList.add("show")
@@ -209,18 +208,28 @@ document.querySelector(".fechar").addEventListener("click", () => {
     document.body.style.overflow = 'initial'
 })
 
-const heartOff = document.querySelector(".fav-OFF")
-const heartOn = document.querySelector(".fav-ON")
 
-heartOff.addEventListener("click", () => {
-    heartOn.style.display = 'block'
-    heartOff.style.display = 'none'
+document.querySelector("#btn-fav").addEventListener("mouseover", ()=> {
+    document.querySelector("#btn-fav").classList.remove('fa-regular')
+    document.querySelector("#btn-fav").classList.add('fa-solid')
+    
+})
 
+document.querySelector("#btn-fav").addEventListener("mouseout", ()=> {
+    document.querySelector("#btn-fav").classList.remove('fa-solid')
+    document.querySelector("#btn-fav").classList.add('fa-regular')
 })
-heartOn.addEventListener("click", () => {
-    heartOff.style.display = 'block'
-    heartOn.style.display = 'none'
+
+document.querySelector("#box-btn-favorites").addEventListener("mouseover", ()=> {
+    document.querySelector("#favoritos-btn").classList.remove('fa-regular')
+    document.querySelector("#favoritos-btn").classList.add('fa-solid')
 })
+
+document.querySelector("#box-btn-favorites").addEventListener("mouseout", ()=> {
+    document.querySelector("#favoritos-btn").classList.remove('fa-solid')
+    document.querySelector("#favoritos-btn").classList.add('fa-regular')
+})
+
 
 new DadosMovies()
 
