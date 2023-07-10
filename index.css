@@ -35,7 +35,7 @@ h1 {
 
 
 .box-search {
-  z-index: 2;
+
   position: relative;
 }
 
@@ -44,19 +44,19 @@ h1 {
 }
 
 #search-form {
-  margin: auto;
-  width: min(70vw, 70rem);
-
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
 
 }
 
 input[type="text"] {
   background-color: hsl(0, 0%, 15%);
-  width: 100%;
+  width: 55rem;
   color: #fff;
   padding: 1rem 5rem 1rem 2rem;
   font-size: 1.6rem;
-  border-radius: 2rem 0 2rem 2rem;
+  border-radius: 2rem;
   border: 2px solid transparent;
   transition: border-color 0.5s, box-shadow 0.2s;
   outline: none;
@@ -71,9 +71,8 @@ input[type="text"]:focus {
 
 #button-search {
   position: absolute;
-  top: 0.5rem;
   right: 0.5rem;
-
+  top: 0.5rem;
   padding: 0.8rem;
   color: white;
   background-color: hsl(0, 0%, 15%);
@@ -97,7 +96,6 @@ input[type="text"]:focus {
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   justify-items: center;
   gap: 0.5rem;
-  padding-top: 2rem;
 }
 
 #movies:has(.card:hover) .card:not(:hover) {
@@ -182,7 +180,7 @@ input[type="text"]:focus {
   background-color: #000000e6;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 1;
   opacity: 0;
   visibility: hidden;
   transform: scale(0.5);
@@ -258,7 +256,7 @@ input[type="text"]:focus {
   background-color: hsl(0, 0%, 15%);
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
-  padding: 1rem 2rem;
+  padding: 0.8rem 2rem;
 }
 
 
@@ -294,58 +292,46 @@ input[type="text"]:focus {
   background: hsl(217, 40%, 36%);
 }
 
+.container-favorites {
+width: 100%;
+display: flex;
+justify-content: end;
+}
 
-
-.mais-botoes {
-  justify-content: end;
+#box-btn-favorites {
   display: flex;
-  color: white;
-
-}
-div.menus {
-  display: flex;
-  position: relative;
-  height: 3.5rem;
- 
-}
-
-.mais-botoes div.menus span {
-  padding: 1rem 1.5rem;
-  cursor: pointer;
-  font-size: 1.4rem;
-}
-.mais-botoes div.menus span:nth-child(1){
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  right: 0rem;
-  border-top-left-radius: 2rem;
-  border-top-right-radius: 2rem;
-  background-color: hsl(0, 0%, 15%);
-
-}
-
-.mais-botoes div.menus span:nth-child(2){
-  position: absolute;
-  display: flex;
+  gap: 1rem;
   align-items: center;
-  gap: 0.7rem;
-  z-index: 0;
-  top: 0;
-  right: 0rem;
-  border-top-right-radius: 2rem;
-  border-top-left-radius: 2rem;
-  background-color: hsl(0, 0%, 25%);
-  
+  padding: 1rem;
+  transition: color 0.4s;
+  cursor: pointer;
+  color:hsl(0, 100%, 35%);
 }
-.mais-botoes div.menus span:nth-child(2) i {
-  font-size: 1.8rem;
+
+#box-btn-favorites:hover {
+  color:hsl(0, 100%, 50%);
 }
-.mais-botoes div.menus span:nth-child(2):hover{
-  z-index: 1;
+
+#box-btn-favorites i {
+  font-size: 2.3rem;
+  cursor: pointer;
+
+}
+
+#box-btn-favorites label {
+  font-weight: 700;
+  cursor: pointer;
+
 }
 
 
+
+
+@media (max-width:700px) {
+  input[type="text"] {
+    width: 75vw
+  }
+}
 
 @media (max-width:505px) {
   .card-img {

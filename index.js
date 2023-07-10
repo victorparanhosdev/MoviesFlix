@@ -220,6 +220,15 @@ document.querySelector("#btn-fav").addEventListener("mouseout", ()=> {
     document.querySelector("#btn-fav").classList.add('fa-regular')
 })
 
+document.querySelector("#box-btn-favorites").addEventListener("mouseover", ()=> {
+    document.querySelector("#favoritos-btn").classList.remove('fa-regular')
+    document.querySelector("#favoritos-btn").classList.add('fa-solid')
+})
+
+document.querySelector("#box-btn-favorites").addEventListener("mouseout", ()=> {
+    document.querySelector("#favoritos-btn").classList.remove('fa-solid')
+    document.querySelector("#favoritos-btn").classList.add('fa-regular')
+})
 
 
 new DadosMovies()
