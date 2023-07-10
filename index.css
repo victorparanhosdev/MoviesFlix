@@ -162,6 +162,7 @@ input[type="text"]:focus{
 
 
 .expand-card {
+  inset: 0;
   padding: 1rem;
   position: fixed;
   width: 100%;
@@ -246,7 +247,7 @@ input[type="text"]:focus{
 
 }
 .box-botoes {
-  gap: 1rem;
+  gap: 2rem;
   align-items: center;
   display: flex;
   background-color: hsl(0, 0%, 15%);
@@ -289,6 +290,17 @@ font-size: 3.5rem;
   color: red;
 }
 
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 1rem;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(217, 40%, 26%);
+  border-radius: 2rem;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(217, 40%, 36%);
+}
 
 @media (max-width:700px) {
   input[type="text"]{
