@@ -12,7 +12,8 @@ body {
   font-size: 1.6rem;
   background-color: hsl(0, 0%, 0%);
 }
-body *{
+
+body * {
   font-family: 'Montserrat', sans-serif
 }
 
@@ -30,7 +31,7 @@ body *{
 h1 {
   padding: 2rem 0;
   text-align: center;
-  color:#ffffff;
+  color: #ffffff;
   font-size: clamp(1.4rem, 4vw + 1rem, 3.2rem);
 }
 
@@ -43,6 +44,7 @@ h1 {
 .get-id {
   display: none;
 }
+
 #search-form {
   display: flex;
   justify-content: center;
@@ -61,9 +63,10 @@ input[type="text"] {
   transition: border-color 0.5s, box-shadow 0.2s;
   outline: none;
 
-  
+
 }
-input[type="text"]:focus{
+
+input[type="text"]:focus {
   border-color: hsl(0, 0%, 35%);
   box-shadow: 0px 0px 1rem 0.1rem hsl(217, 40%, 26%)
 }
@@ -81,7 +84,9 @@ input[type="text"]:focus{
 
 
 }
-.fa-magnifying-glass:before, .fa-search:before {
+
+.fa-magnifying-glass:before,
+.fa-search:before {
   font-size: 1.8rem;
   display: block;
 }
@@ -95,7 +100,7 @@ input[type="text"]:focus{
   gap: 0.5rem;
 }
 
-#movies:has(.card:hover) .card:not(:hover){
+#movies:has(.card:hover) .card:not(:hover) {
   opacity: 0.6;
   scale: 0.99;
 }
@@ -109,19 +114,23 @@ input[type="text"]:focus{
   cursor: pointer;
 
 }
+
 .card.width {
   max-width: 29rem;
 }
-.card.width .card-img{
+
+.card.width .card-img {
   height: auto;
 }
 
-.card:hover{
+.card:hover {
   box-shadow: 0px 0px 10px 1px hsl(217, 40%, 26%);
 }
+
 .card-img {
   height: 27rem;
 }
+
 .card img {
   height: 100%;
   width: 100%;
@@ -129,7 +138,7 @@ input[type="text"]:focus{
   border-top-right-radius: 0.5rem;
   object-fit: cover;
   object-position: top center;
- 
+
 }
 
 .card-content {
@@ -145,7 +154,8 @@ input[type="text"]:focus{
   margin-top: 0;
   margin-bottom: 0.5rem;
 }
-.movie-type{
+
+.movie-type {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -153,8 +163,9 @@ input[type="text"]:focus{
   color: white;
   font-size: 1.2rem;
 }
+
 .movie-release {
-  
+
   font-size: 1.3rem;
   color: #777777;
   font-weight: 700;
@@ -174,17 +185,17 @@ input[type="text"]:focus{
   z-index: 1;
   opacity: 0;
   visibility: hidden;
-  transform: scale(0.6);
+  transform: scale(0.5);
   transition-property: opacity, transform;
   transition: 0.2s ease-in-out;
   text-align: justify;
   overflow: auto;
-  
+
 }
 
 .expand-card.show {
   opacity: 1;
-  visibility: visible; 
+  visibility: visible;
   transform: scale(1);
 
 }
@@ -207,16 +218,17 @@ input[type="text"]:focus{
   object-fit: cover;
   object-position: top center;
 }
+
 .container-info {
   font-family: 'Ubuntu', sans-serif;
   padding: 2rem;
-  background-color:hsl(0, 0%, 10%);
+  background-color: hsl(0, 0%, 10%);
 }
 
 .filme-titulo {
   text-align: initial;
   font-weight: 600;
-  font-size: clamp(1.6rem, 3vw + 1rem, 2.5rem);;
+  font-size: clamp(1.6rem, 3vw + 1rem, 2.5rem);
   margin-bottom: 1rem;
 }
 
@@ -228,9 +240,11 @@ input[type="text"]:focus{
 
 .filme-descricao-span {
   color: hsl(0, 0%, 50%);
-  
+
 }
-.filme-genero, .filme-lancamento {
+
+.filme-genero,
+.filme-lancamento {
   color: hsl(0, 0%, 50%);
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
@@ -251,13 +265,13 @@ input[type="text"]:focus{
 .fa-heart {
   cursor: pointer;
   font-size: 3rem;
-
 }
+
 .fav-OFF::before {
-  
   transition: color .3s ease;
 }
-.fav-OFF:hover::before{
+
+.fav-OFF:hover::before {
   color: red;
 }
 
@@ -265,19 +279,20 @@ input[type="text"]:focus{
   color: red;
   transition: color .3s ease;
 }
-.fav-ON:hover::before{
 
+.fav-ON:hover::before {
   color: red;
 }
 
 
 
 .fechar {
-cursor: pointer;
-transition: color .3s ease;
-font-size: 3.5rem;
+  cursor: pointer;
+  transition: color .3s ease;
+  font-size: 3.5rem;
 
 }
+
 .fechar:hover {
   color: red;
 }
@@ -286,16 +301,18 @@ font-size: 3.5rem;
   background-color: transparent;
   width: 1rem;
 }
+
 ::-webkit-scrollbar-thumb {
   background: hsl(217, 40%, 26%);
   border-radius: 2rem;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(217, 40%, 36%);
 }
 
 @media (max-width:700px) {
-  input[type="text"]{
+  input[type="text"] {
     width: 75vw
   }
 }
@@ -304,9 +321,8 @@ font-size: 3.5rem;
   .card-img {
     height: auto;
   }
+
   .card {
     width: 95%;
   }
 }
-
-

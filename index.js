@@ -69,14 +69,11 @@ class DadosMovies {
             row.querySelector(".get-id").textContent = dado.id
             document.querySelector("#movies").append(row)
 
-
             if (dados.length <= 5) {
                 document.querySelectorAll(".card").forEach(card => card.classList.add("width"))
             }
 
             if (dados.length == contador) {
-
-
                 document.querySelectorAll(".card").forEach(card => card.addEventListener("click", (event) => {
                     document.querySelector(".expand-card").classList.add("show")
                     document.body.style.overflow = 'hidden'
@@ -87,116 +84,97 @@ class DadosMovies {
 
                     this.expandCard(newArray)
                 }))
-
-
             }
-
-
-
         })
-
-
 
     }
 
-
     expandCard(dados) {
-        console.log(dados)
-        function Generos(){
+        function Generos() {
             const array = Array.from(dados[0].genres).map(gen => {
-               return " "+ gen.name
+                return " " + gen.name
             })
             return array
         }
-        function DatadeLancamento(){
+        function DatadeLancamento() {
 
             let data = dados[0].release_date.split("-")
             let [ano, mes, dia] = data
 
             switch (Number(mes)) {
                 case 1:
-                  mes = "Janeiro";
-                  break
+                    mes = "Janeiro";
+                    break
                 case 2:
-                  mes = "Fevereiro";
-                  break
+                    mes = "Fevereiro";
+                    break
                 case 3:
-                  mes = "Março";
-                  break
+                    mes = "Março";
+                    break
                 case 4:
-                  mes = "Abril";
-                  break
+                    mes = "Abril";
+                    break
                 case 5:
-                  mes = "Maio";
-                  break
+                    mes = "Maio";
+                    break
                 case 6:
-                  mes = "Junho";
-                  break
+                    mes = "Junho";
+                    break
                 case 7:
-                  mes = "Julho";
-                  break
+                    mes = "Julho";
+                    break
                 case 8:
-                  mes = "Agosto";
-                  break
+                    mes = "Agosto";
+                    break
                 case 9:
-                  mes = "Setembro";
-                  break
+                    mes = "Setembro";
+                    break
                 case 10:
-                  mes = "Outubro";
-                  break
+                    mes = "Outubro";
+                    break
                 case 11:
-                  mes = "Novembro";
-                  break
+                    mes = "Novembro";
+                    break
                 case 12:
-                  mes = "Dezembro";
-                  break
+                    mes = "Dezembro";
+                    break
                 default:
-                  mes = "Mês inválido";
-              }
+                    mes = "Mês inválido";
+            }
 
-              const dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`
+            const dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`
 
             return dataconvertida
         }
         document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dados[0].backdrop_path}`
-        if(dados[0].backdrop_path == null){
+        if (dados[0].backdrop_path == null) {
             document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dados[0].poster_path}`
             document.querySelector(".filme-card img").style.maxHeight = '40rem'
         }
-       
+
         document.querySelector(".filme-card img").alt = `Foto do filme ${dados[0].title}`
         document.querySelector(".filme-titulo").textContent = dados[0].title
         document.querySelector(".filme-genero").textContent = `Gênero: ${Generos()}`
         document.querySelector(".filme-lancamento").textContent = `${DatadeLancamento()}`
         document.querySelector(".filme-descricao-span").textContent = `${dados[0].overview}`
-        if(dados[0].overview == "" || null){
+        if (dados[0].overview == "" || null) {
             document.querySelector(".filme-descricao").textContent = `Sem Descrição`
             document.querySelector(".filme-descricao-span").removeChild()
         }
-      
-   
-    }
 
-    CreatedexpandHTML() {
-        let div = document.createElement("div")
-        div.innerHTML = ``
 
     }
 
 
     async GetMovies(query) {
-
-
         const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey.key}&query=${encodeURIComponent(query)}&language=pt-BR`;
         const dados = await fetch(url).then(res => res.json()).then(data => data.results)
-
         if (dados.length == 0) {
             alert("Filme não encontrado")
             boxSearch.value = ''
             boxSearch.focus()
             return
         }
-
 
         this.searchMovies(dados)
         boxSearch.value = ''
@@ -215,15 +193,7 @@ buttonSearch.addEventListener("click", (event) => {
         return
     }
     Dados.GetMovies(value)
-
-
 })
-
-document.querySelectorAll(".card").forEach(card => card.addEventListener("click", (event) => {
-    document.querySelector(".expand-card").classList.add("show")
-    document.body.style.overflow = 'hidden'
-
-}))
 
 document.querySelector(".fechar").addEventListener("click", () => {
     document.querySelector(".expand-card").classList.remove("show")
