@@ -245,6 +245,7 @@ input[type="text"]:focus {
 
 .filme-genero,
 .filme-lancamento {
+  text-align: initial;
   color: hsl(0, 0%, 50%);
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
