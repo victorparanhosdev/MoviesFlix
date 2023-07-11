@@ -26,6 +26,7 @@ class DadosMovies {
         document.querySelectorAll("#movies .card").forEach(card => card.remove())
     }
     searchMovies(dados) {
+     
         this.removeHTML()
         function converterData(valor) {
             let data = valor.split("-")
@@ -77,6 +78,7 @@ class DadosMovies {
             if (dados.length == contador) {
 
                 document.querySelectorAll(".card").forEach(card => card.addEventListener("click", (event) => {
+                  
                     contador = 0
                     document.querySelector(".expand-card").classList.add("show")
                     document.body.style.overflow = 'hidden'
@@ -149,6 +151,7 @@ class DadosMovies {
 
             return dataconvertida
         }
+        
         document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dados[0].backdrop_path}`
         if (dados[0].backdrop_path == null) {
             document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dados[0].poster_path}`
@@ -157,19 +160,20 @@ class DadosMovies {
                 maxHeight: '38rem',
               });
         }
-
+        document.querySelector("#btn-fav .get-id").textContent = `${dados[0].id}`
         document.querySelector(".filme-card img").alt = `Foto do filme ${dados[0].title}`
         document.querySelector(".filme-titulo").textContent = dados[0].title
         document.querySelector(".filme-genero").textContent = `Gênero: ${Generos()}`
         document.querySelector(".filme-lancamento").textContent = `${DatadeLancamento()}`
         document.querySelector(".filme-descricao-span").textContent = `${dados[0].overview}`
+
         if (dados[0].overview == "") {
             document.querySelector(".filme-descricao").textContent = `Sem Descrição`
 
         }else{
             document.querySelector(".filme-descricao").textContent = `Descrição do Filme:`
         }
-
+     
 
     }
 
@@ -203,22 +207,43 @@ buttonSearch.addEventListener("click", (event) => {
     Dados.GetMovies(value)
 })
 
+
+const btnFavoritos = document.querySelector("#btn-fav")
+let ArrayIDS = []
+let favoritoAtivo = false;
+
 document.querySelector(".fechar").addEventListener("click", () => {
     document.querySelector(".expand-card").classList.remove("show")
     document.body.style.overflow = 'initial'
 })
 
-const btnFavoritos = document.querySelector("#btn-fav")
-btnFavoritos.addEventListener("mouseover", ()=> {
-    btnFavoritos.classList.remove('fa-regular')
-    btnFavoritos.classList.add('fa-solid')
-    
-})
 
-btnFavoritos.addEventListener("mouseout", ()=> {
-    btnFavoritos.classList.remove('fa-solid')
-    btnFavoritos.classList.add('fa-regular')
-})
+
+btnFavoritos.addEventListener("click", (event) => {
+  if (!favoritoAtivo) {
+    btnFavoritos.classList.replace('fa-regular', 'fa-solid');
+    const GetID = Number(event.target.querySelector(".get-id").textContent)
+    
+    favoritoAtivo = true;
+  } else {
+    btnFavoritos.classList.replace('fa-solid', 'fa-regular');
+    favoritoAtivo = false;
+  }
+});
+
+btnFavoritos.addEventListener("mouseover", () => {
+  if (!favoritoAtivo) {
+    btnFavoritos.classList.replace('fa-regular', 'fa-solid');
+  }
+});
+
+btnFavoritos.addEventListener("mouseout", () => {
+  if (!favoritoAtivo) {
+    btnFavoritos.classList.replace('fa-solid', 'fa-regular');
+  }
+});
+
+
 
 new DadosMovies()
 

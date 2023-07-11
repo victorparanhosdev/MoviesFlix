@@ -259,14 +259,14 @@ input[type="text"]:focus {
   padding: 1rem 2rem;
 }
 
-
+#btn-fav.fa-solid {
+  color: red;
+}
 #btn-fav {
   font-size: 3rem;
   cursor: pointer;
 }
-#btn-fav:hover {
-  color: red;
-}
+
 .fechar {
   cursor: pointer;
   transition: color .3s;
