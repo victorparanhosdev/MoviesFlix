@@ -1,6 +1,10 @@
 import { apiKey } from "./apiKey.js";
 
 class DadosMovies {
+    constructor(){
+        this.listadefilmesFavoritados = []
+        this.dadoExpandido_ID = []
+    }
 
   createHTML() {
     const div = document.createElement("div");
@@ -24,6 +28,7 @@ class DadosMovies {
   removeHTML() {
     document.querySelectorAll("#movies .card").forEach((card) => card.remove());
   }
+
   searchMovies(dados) {
     this.removeHTML();
     function converterData(valor) {
@@ -43,7 +48,29 @@ class DadosMovies {
       const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}&language=pt-BR`;
       const dado = await fetch(url)
         .then((res) => res.json())
-        .then((data) => data);
+        .then(
+          ({
+            backdrop_path,
+            genres,
+            id,
+            original_language,
+            overview,
+            poster_path,
+            release_date,
+            title,
+          }) => {
+            return {
+              background: backdrop_path,
+              genero: genres,
+              id: id,
+              lingua: original_language,
+              descricao: overview,
+              capadofilme: poster_path,
+              datadelancamento: release_date,
+              titulo: title,
+            };
+          }
+        );
       contador++;
       let row = this.createHTML();
 
@@ -54,24 +81,23 @@ class DadosMovies {
         return lista;
       }
 
-      if (dado.poster_path == null) {
+      if (dado.capadofilme == null) {
         return;
       }
 
       ArrayListDados.push(dado);
-
       row.querySelector(
         ".card:has(img) img"
-      ).src = `https://image.tmdb.org/t/p/w200${dado.poster_path}`;
+      ).src = `https://image.tmdb.org/t/p/w200${dado.capadofilme}`;
       row.querySelector(
         ".card:has(img) img"
-      ).alt = `Imagem do filme ${dado.title}`;
-      row.querySelector(".movie-title").textContent = dado.title;
+      ).alt = `Imagem do filme ${dado.titulo}`;
+      row.querySelector(".movie-title").textContent = dado.titulo;
       row.querySelector(".movie-type").textContent = `${
-        (await GeneneroSelected(dado.genres)) || "Desconhecido"
+        (await GeneneroSelected(dado.genero)) || "Desconhecido"
       }`;
       row.querySelector(".movie-release").textContent = `${converterData(
-        dado.release_date
+        dado.datadelancamento
       )}`;
       row.querySelector(".get-id").textContent = dado.id;
       document.querySelector("#movies").append(row);
@@ -83,128 +109,174 @@ class DadosMovies {
       }
 
       if (dados.length == contador) {
-        
         document.querySelectorAll(".card").forEach((card) =>
-
           card.addEventListener("click", (event) => {
-           
             contador = 0;
-
             document.querySelector(".expand-card").classList.add("show");
-
             document.body.style.overflow = "hidden";
-            
-            const idMovies =  Number(event.currentTarget.querySelector(".get-id").textContent);
+            const idMovies = Number(
+              event.currentTarget.querySelector(".get-id").textContent
+            );
+
             const newArray = ArrayListDados.filter((movie) => {
               return movie.id === idMovies;
             });
 
-            
-            function Generos() {
-                const array = Array.from(newArray[0].genres).map((gen) => {
-                  return " " + gen.name;
-                });
-                return array;
-              }
-          
-              function DatadeLancamento() {
-                let data = newArray[0].release_date.split("-");
-                let [ano, mes, dia] = data;
-          
-                switch (Number(mes)) {
-                  case 1:
-                    mes = "Janeiro";
-                    break;
-                  case 2:
-                    mes = "Fevereiro";
-                    break;
-                  case 3:
-                    mes = "Março";
-                    break;
-                  case 4:
-                    mes = "Abril";
-                    break;
-                  case 5:
-                    mes = "Maio";
-                    break;
-                  case 6:
-                    mes = "Junho";
-                    break;
-                  case 7:
-                    mes = "Julho";
-                    break;
-                  case 8:
-                    mes = "Agosto";
-                    break;
-                  case 9:
-                    mes = "Setembro";
-                    break;
-                  case 10:
-                    mes = "Outubro";
-                    break;
-                  case 11:
-                    mes = "Novembro";
-                    break;
-                  case 12:
-                    mes = "Dezembro";
-                    break;
-                  default:
-                    mes = "Mês inválido";
-                }
-          
-                const dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`;
-          
-                return dataconvertida;
-              }
-          
-              document.querySelector(
-                ".filme-card img"
-              ).src = `https://image.tmdb.org/t/p/w500${newArray[0].backdrop_path}`;
-              if (newArray[0].backdrop_path == null) {
-                document.querySelector(
-                  ".filme-card img"
-                ).src = `https://image.tmdb.org/t/p/w500${newArray[0].poster_path}`;
-                const elemento = document.querySelector(".filme-card img");
-                Object.assign(elemento.style, {
-                  maxHeight: "38rem",
-                });
-              }
-              document.querySelector("#btn-fav .get-id").textContent = `${newArray[0].id}`;
-              document.querySelector(
-                ".filme-card img"
-              ).alt = `Foto do filme ${newArray[0].title}`;
-              document.querySelector(".filme-titulo").textContent = newArray[0].title;
-              document.querySelector(
-                ".filme-genero"
-              ).textContent = `Gênero: ${Generos()}`;
-              document.querySelector(
-                ".filme-lancamento"
-              ).textContent = `${DatadeLancamento()}`;
-              document.querySelector(
-                ".filme-descricao-span"
-              ).textContent = `${newArray[0].overview}`;
-          
-              if (newArray[0].overview == "") {
-                document.querySelector(".filme-descricao").textContent = `Sem Descrição`;
-              } else {
-                document.querySelector(
-                  ".filme-descricao"
-                ).textContent = `Descrição do Filme:`;
-              }         
+            this.expandCard(newArray);
           })
         );
       }
     });
   }
 
+  expandCard(dado) {
+    function Generos() {
+      const array = Array.from(dado[0].genero).map((gen) => {
+        return " " + gen.name;
+      });
+
+      return array;
+    }
+
+    function DatadeLancamento() {
+      let data = dado[0].datadelancamento.split("-");
+      let [ano, mes, dia] = data;
+
+      switch (Number(mes)) {
+        case 1:
+          mes = "Janeiro";
+          break;
+        case 2:
+          mes = "Fevereiro";
+          break;
+        case 3:
+          mes = "Março";
+          break;
+        case 4:
+          mes = "Abril";
+          break;
+        case 5:
+          mes = "Maio";
+          break;
+        case 6:
+          mes = "Junho";
+          break;
+        case 7:
+          mes = "Julho";
+          break;
+        case 8:
+          mes = "Agosto";
+          break;
+        case 9:
+          mes = "Setembro";
+          break;
+        case 10:
+          mes = "Outubro";
+          break;
+        case 11:
+          mes = "Novembro";
+          break;
+        case 12:
+          mes = "Dezembro";
+          break;
+        default:
+          mes = "Mês inválido";
+      }
+
+      const dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`;
+      return dataconvertida;
+    }
+
+    
+
+    const btnFavoritos = document.querySelector("#btn-fav");
+    const btnFechar = document.querySelector(".fechar");
+ 
+    document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dado[0].background}`;
+    if (dado[0].background == null) {
+      document.querySelector(
+        ".filme-card img"
+      ).src = `https://image.tmdb.org/t/p/w500${dado[0].capadofilme}`;
+      const elemento = document.querySelector(".filme-card img");
+      Object.assign(elemento.style, {
+        maxHeight: "38rem",
+      });
+    }
+
+    document.querySelector("#btn-fav .get-id").textContent = `${dado[0].id}`;
+    document.querySelector(".filme-card img").alt = `Foto do filme ${dado[0].titulo}`;
+    document.querySelector(".filme-titulo").textContent = dado[0].titulo;
+    document.querySelector(".filme-genero").textContent = `Gênero: ${Generos()}`;
+    document.querySelector(".filme-lancamento").textContent = `${DatadeLancamento()}`;
+    document.querySelector(".filme-descricao-span").textContent = `${dado[0].descricao}`;
+    if (dado[0].descricao == "") {
+      document.querySelector(".filme-descricao").textContent = `Sem Descrição`;
+    } else {
+      document.querySelector(".filme-descricao").textContent = `Descrição do Filme:`;
+    }
+
+    let favoritoAtivo = false;
+    if(this.listadefilmesFavoritados.includes(this.dadoExpandido_ID)){
+       
+    btnFavoritos.classList.replace("fa-solid", "fa-regular")
+        favoritoAtivo = false
+    }
+
+
+ 
+
+  
+
+
+    btnFechar.addEventListener("click", () => {
+      document.querySelector(".expand-card").classList.remove("show");
+       document.body.style.overflow = "initial";
+       console.log(this.dadoExpandido_ID, this.listadefilmesFavoritados)
+    });
+
+    btnFavoritos.addEventListener("click", (event) => {
+      if (!favoritoAtivo) {
+        btnFavoritos.classList.replace("fa-regular", "fa-solid");
+        this.dadoExpandido_ID = dado[0].id
+        this.listadefilmesFavoritados.push(Number(event.target.querySelector(".get-id").textContent))
+        favoritoAtivo = true;
+
+      } else {
+        btnFavoritos.classList.replace("fa-solid", "fa-regular");
+        favoritoAtivo = false;
+      }
+    });
+
+    // btnFavoritos.addEventListener("mouseover", () => {
+    //   if (!favoritoAtivo) {
+    //     btnFavoritos.classList.replace("fa-regular", "fa-solid");
+    //   }
+    // });
+
+    // btnFavoritos.addEventListener("mouseout", () => {
+    //   if (!favoritoAtivo) {
+    //     btnFavoritos.classList.replace("fa-solid", "fa-regular");
+    //   }
+    // });
+
+
+    const verificarSetemaClasse = document.querySelector(".filme-card div.botoes #btn-fav").classList.contains("fa-solid");
+
+
+
+
+
+  }
 
   async GetMovies(query) {
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${
       apiKey.key
     }&query=${encodeURIComponent(query)}&language=pt-BR`;
+
     const dados = await fetch(url)
       .then((res) => res.json())
       .then((data) => data.results);
+
     if (dados.length == 0) {
       alert("Filme não encontrado");
       boxSearch.value = "";
@@ -216,43 +288,6 @@ class DadosMovies {
     boxSearch.value = "";
   }
 }
-
-const btnFavoritos = document.querySelector("#btn-fav");
-const btnFechar = document.querySelector(".fechar")
-
-let favoritoAtivo = false;
-
-btnFechar.addEventListener("click", () => {
-  document.querySelector(".expand-card").classList.remove("show");
-  document.body.style.overflow = "initial";
-  if (btnFavoritos.classList.contains("fa-solid")) {
-    btnFavoritos.classList.replace("fa-solid", "fa-regular");
-    favoritoAtivo = false;
-  }
-});
-
-btnFavoritos.addEventListener("click", (event) => {
-  if (!favoritoAtivo) {
-    btnFavoritos.classList.replace("fa-regular", "fa-solid");
-    const GetID = Number(event.target.querySelector(".get-id").textContent);
-    favoritoAtivo = true;
-  } else {
-    btnFavoritos.classList.replace("fa-solid", "fa-regular");
-    favoritoAtivo = false;
-  }
-});
-
-btnFavoritos.addEventListener("mouseover", () => {
-  if (!favoritoAtivo) {
-    btnFavoritos.classList.replace("fa-regular", "fa-solid");
-  }
-});
-
-btnFavoritos.addEventListener("mouseout", () => {
-  if (!favoritoAtivo) {
-    btnFavoritos.classList.replace("fa-solid", "fa-regular");
-  }
-});
 
 const buttonSearch = document.querySelector("#button-search");
 const boxSearch = document.querySelector("#query");
