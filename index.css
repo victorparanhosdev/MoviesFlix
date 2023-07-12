@@ -113,11 +113,11 @@ input[type="text"]:focus {
 
 }
 
-.card.width {
+.card.width, .card.widthh {
   max-width: 29rem;
 }
 
-.card.width .card-img {
+.card.widthh .card-img {
   height: auto;
 }
 
@@ -126,7 +126,7 @@ input[type="text"]:focus {
 }
 
 .card-img {
-  height: 27rem;
+  height: 30rem;
 }
 
 .card img {
@@ -305,10 +305,9 @@ input[type="text"]:focus {
 }
 
 @media (max-width:505px) {
-  .card-img {
+  .card.width .card-img {
     height: auto;
   }
-
   .card {
     width: 95%;
   }

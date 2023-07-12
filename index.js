@@ -45,7 +45,7 @@ class DadosMovies {
     let contador = 0;
     let ArrayListDados = [];
     Array.from(dados).forEach(async (extrairID) => {
-      const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey.key}&language=pt-BR`;
+      const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey}&language=pt-BR`;
       const dado = await fetch(url)
         .then((res) => res.json())
         .then(
@@ -101,8 +101,14 @@ class DadosMovies {
       )}`;
       row.querySelector(".get-id").textContent = dado.id;
       document.querySelector("#movies").append(row);
+      
+      if (dados.length == 1) {
+        document
+          .querySelectorAll(".card")
+          .forEach((card) => card.classList.add("widthh"));
+      }
 
-      if (dados.length <= 5) {
+      if (dados.length > 1 && dados.length <= 5) {
         document
           .querySelectorAll(".card")
           .forEach((card) => card.classList.add("width"));
@@ -114,10 +120,7 @@ class DadosMovies {
             contador = 0;
             document.querySelector(".expand-card").classList.add("show");
             document.body.style.overflow = "hidden";
-            const idMovies = Number(
-              event.currentTarget.querySelector(".get-id").textContent
-            );
-
+            const idMovies = Number(event.currentTarget.querySelector(".get-id").textContent);
             const newArray = ArrayListDados.filter((movie) => {
               return movie.id === idMovies;
             });
@@ -130,6 +133,12 @@ class DadosMovies {
   }
 
   expandCard(dado) {
+    console.log(dado)
+
+    const btnFavoritos = document.querySelector("#btn-fav");
+    const btnFechar = document.querySelector(".fechar");
+
+
     function Generos() {
       const array = Array.from(dado[0].genero).map((gen) => {
         return " " + gen.name;
@@ -187,11 +196,6 @@ class DadosMovies {
       return dataconvertida;
     }
 
-    
-
-    const btnFavoritos = document.querySelector("#btn-fav");
-    const btnFechar = document.querySelector(".fechar");
- 
     document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${dado[0].background}`;
     if (dado[0].background == null) {
       document.querySelector(
@@ -216,29 +220,21 @@ class DadosMovies {
     }
 
     let favoritoAtivo = false;
-    if(this.listadefilmesFavoritados.includes(this.dadoExpandido_ID)){
-       
-    btnFavoritos.classList.replace("fa-solid", "fa-regular")
-        favoritoAtivo = false
-    }
-
-
- 
-
-  
-
 
     btnFechar.addEventListener("click", () => {
       document.querySelector(".expand-card").classList.remove("show");
        document.body.style.overflow = "initial";
-       console.log(this.dadoExpandido_ID, this.listadefilmesFavoritados)
+       console.log(this.listadefilmesFavoritados)
+       btnFavoritos.classList.replace("fa-solid", "fa-regular");
+        favoritoAtivo = false;
     });
 
     btnFavoritos.addEventListener("click", (event) => {
       if (!favoritoAtivo) {
         btnFavoritos.classList.replace("fa-regular", "fa-solid");
-        this.dadoExpandido_ID = dado[0].id
         this.listadefilmesFavoritados.push(Number(event.target.querySelector(".get-id").textContent))
+
+      
         favoritoAtivo = true;
 
       } else {
@@ -259,19 +255,10 @@ class DadosMovies {
     //   }
     // });
 
-
-    const verificarSetemaClasse = document.querySelector(".filme-card div.botoes #btn-fav").classList.contains("fa-solid");
-
-
-
-
-
   }
 
   async GetMovies(query) {
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${
-      apiKey.key
-    }&query=${encodeURIComponent(query)}&language=pt-BR`;
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=pt-BR`;
 
     const dados = await fetch(url)
       .then((res) => res.json())
@@ -304,4 +291,4 @@ buttonSearch.addEventListener("click", (event) => {
   Dados.GetMovies(value);
 });
 
-new DadosMovies();
+
