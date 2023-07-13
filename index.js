@@ -126,8 +126,8 @@ class DadosMovies {
 
     }
     ExpandCard(card){
-
-        const btnFechar = document.querySelector(".fechar");
+        this.load()
+        const btnFechar = document.querySelector("#fechar");
         const btnFavOff = document.querySelector("#btn-off");
         const btnFavOn = document.querySelector("#btn-on");
 
@@ -225,9 +225,13 @@ class DadosMovies {
      
 
 
-        btnFechar.addEventListener("click", () => {
+        btnFechar.addEventListener("click", (event) => {
+            event.preventDefault()
             document.querySelector(".expand-card").classList.remove("show");
-            document.body.style.overflow = "initial";     
+            document.body.style.overflow = "initial";   
+            this.setItemFav()
+            this.load()
+
  
               
         });
