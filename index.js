@@ -67,7 +67,7 @@ class DadosMovies {
 
             if(contador == tamanho){
                 this.DadosFilms = ArrayListDados
-                this.setItemFilm()
+                this.setItemFilm()            
                 this.fazeroHTML()
                 
             }
@@ -81,21 +81,10 @@ class DadosMovies {
     }
 
     fazeroHTML(){
-
-        this.removeHTML();
  
          this.DadosFilms.forEach(card => {
             let row = this.createHTML();
-
-            // if (data.length == 1) {
-            //     console.log('entrei')
-            //     document.querySelectorAll(".card").forEach((card) => card.classList.add("widthh"));
-                
-            // }
-            // if (data.length > 1 && data.length <= 5) {
-            //     console.log('entrei 2')
-            //     document.querySelectorAll(".card").forEach((card) => card.classList.add("width"));
-            // }
+  
             if (card.capadofilme == null) {
                 return
             }
@@ -116,7 +105,6 @@ class DadosMovies {
                 return `${dataconvertida}`;
             }
 
-           
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${card.capadofilme}`;
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${card.titulo}`;
             row.querySelector(".movie-title").textContent = card.titulo;
@@ -262,24 +250,35 @@ class DadosMovies {
     }
 
 
-    async GetMovies(query) {
-        const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=pt-BR`;
-
-        const dados = await fetch(url)
-            .then((res) => res.json())
-            .then((data) => data.results);
-
-        if (dados.length == 0) {
-            alert("Filme não encontrado");
-            boxSearch.value = "";
-            boxSearch.focus();
-            return;
-        }
-        
-
-        this.GetDados(dados, dados.length);
-        boxSearch.value = "";
+async GetMovies(query) {
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=pt-BR`;
+  const loadingSpinner = document.querySelector("#loading-spinner");
+  
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const movies = data.results;
+    if (movies.length === 0) {
+      alert("Filme não encontrado");
+      boxSearch.value = "";
+      boxSearch.focus();
+      return;
     }
+    this.removeHTML()
+    // Show loading spinner
+    loadingSpinner.style.display = "block";
+    await this.GetDados(movies, movies.length);
+    boxSearch.value = "";
+
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    alert("Ocorreu um erro ao buscar os filmes. Por favor, tente novamente mais tarde.");
+  } finally {
+    // Hide loading spinner
+    
+    loadingSpinner.style.display = "none";
+  }
+}
 }
 
 
