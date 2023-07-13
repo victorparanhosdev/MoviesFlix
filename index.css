@@ -39,9 +39,7 @@ h1 {
   position: relative;
 }
 
-.get-id {
-  display: none;
-}
+
 
 #search-form {
   display: flex;
@@ -259,14 +257,22 @@ input[type="text"]:focus {
   padding: 1rem 2rem;
 }
 
-#btn-fav.fa-solid {
+.btn-fav-off, .btn-fav-on{
   color: red;
-}
-#btn-fav {
   font-size: 3rem;
   cursor: pointer;
+  transition: color 0.3s;
 }
 
+.btn-fav-off{
+  color: white
+}
+.btn-fav-off:hover {
+  color: red;
+}
+i.hidden {
+  display: none;
+}
 .fechar {
   cursor: pointer;
   transition: color .3s;

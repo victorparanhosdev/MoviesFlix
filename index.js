@@ -7,10 +7,15 @@ class DadosMovies {
     }
 
     load() {
-        this.DadosFilms = []
-        this.listadefilmesFavoritados = []
-        this.dadoExpandido_ID = []
-     
+        this.DadosFilms = JSON.parse(localStorage.getItem('@filmes:')) || []
+        this.listadefilmesFavoritados = JSON.parse(localStorage.getItem('@favoritos:')) || []
+    }
+    
+    setItemFav(){
+        localStorage.setItem('@favoritos:', JSON.stringify(this.listadefilmesFavoritados))
+    }
+    setItemFilm(){
+        localStorage.setItem('@filmes:', JSON.stringify(this.DadosFilms))
     }
 
     createHTML() {
@@ -38,8 +43,9 @@ class DadosMovies {
     async GetDados(dados, tamanho) {
         let contador = 0;
         let ArrayListDados = []
-        
-        Array.from(dados).forEach(async (extrairID) => {
+
+
+        for(let extrairID of dados){
             const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey}&language=pt-BR`;
             const blocoDeInfo = await fetch(url).then((res) => res.json()).then(({ backdrop_path, genres, id, original_language, overview, poster_path, release_date, title, }) => {
                 return ({
@@ -53,34 +59,43 @@ class DadosMovies {
                     titulo: title,
                 });
             });
-
+         
 
             ArrayListDados.push(blocoDeInfo)
             contador++
             
 
             if(contador == tamanho){
-                this.fazeroHTML(ArrayListDados)
+                this.DadosFilms = ArrayListDados
+                this.setItemFilm()
+                this.fazeroHTML()
                 
             }
 
-        })
+            
+        }
+        
+
 
 
     }
 
-    fazeroHTML(data){
-       
+    fazeroHTML(){
+
         this.removeHTML();
-        
-  
-         data.forEach(card => {
+ 
+         this.DadosFilms.forEach(card => {
+            let row = this.createHTML();
 
-            if (data.length == 1) {
-                row.querySelectorAll(".card").forEach((card) => card.classList.add("widthh"));
-                }
-            
-
+            // if (data.length == 1) {
+            //     console.log('entrei')
+            //     document.querySelectorAll(".card").forEach((card) => card.classList.add("widthh"));
+                
+            // }
+            // if (data.length > 1 && data.length <= 5) {
+            //     console.log('entrei 2')
+            //     document.querySelectorAll(".card").forEach((card) => card.classList.add("width"));
+            // }
             if (card.capadofilme == null) {
                 return
             }
@@ -101,13 +116,12 @@ class DadosMovies {
                 return `${dataconvertida}`;
             }
 
-            let row = this.createHTML();
+           
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${card.capadofilme}`;
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${card.titulo}`;
             row.querySelector(".movie-title").textContent = card.titulo;
             row.querySelector(".movie-type").textContent = `${(GeneneroSelected(card.genero)) || "Desconhecido"}`;
             row.querySelector(".movie-release").textContent = `${converterData(card.datadelancamento)}`;
-            row.querySelector(".get-id").textContent = card.id;
             row.addEventListener("click", ()=> {
                 document.querySelector(".expand-card").classList.add("show");
                 document.body.style.overflow = "hidden";
@@ -124,8 +138,10 @@ class DadosMovies {
 
     }
     ExpandCard(card){
-        console.log(card)
 
+        const btnFechar = document.querySelector(".fechar");
+        const btnFavOff = document.querySelector("i.btn-fav-off");
+        const btnFavOn = document.querySelector("i.btn-fav-on");
 
         function Generos() {
             const array = Array.from(card.genero).map((gen) => {
@@ -184,6 +200,13 @@ class DadosMovies {
             return dataconvertida;
         }
 
+        if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) !== -1) {
+            btnFavOff.classList.add("hidden");
+            btnFavOn.classList.remove("hidden");
+          } else {
+            btnFavOff.classList.remove("hidden");
+            btnFavOn.classList.add("hidden");
+          }
 
         document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.background}`;
         if (card.background == null) {
@@ -203,103 +226,41 @@ class DadosMovies {
         } else {
             document.querySelector(".filme-descricao").textContent = `Descrição do Filme:`;
         }
+     
+     
 
-        const btnFechar = document.querySelector(".fechar");
 
         btnFechar.addEventListener("click", () => {
             document.querySelector(".expand-card").classList.remove("show");
-            document.body.style.overflow = "initial";
+            document.body.style.overflow = "initial";        
         });
+
+        btnFavOff.addEventListener("click", () => {
+            if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) === -1) {
+              this.listadefilmesFavoritados.push(card);
+              btnFavOff.classList.add("hidden");
+              btnFavOn.classList.remove("hidden");
+        
+            }
+
+          });
+        
+          btnFavOn.addEventListener("click", () => {
+            const index = this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id);
+            if (index !== -1) {
+              this.listadefilmesFavoritados.splice(index, 1);
+              btnFavOff.classList.remove("hidden");
+              btnFavOn.classList.add("hidden");
+            }
+
+
+          });
+          
+   
    
 
     }
 
-    // searchMovies(dados) {
-
- 
-
-    
-
-                  
-    // if (data.length == 1) {
-    //     document.querySelectorAll(".card").forEach((card) => card.classList.add("widthh"));
-    // }
-
-    // if (dada.length > 1 && dados.length <= 5) {
-    //     document.querySelectorAll(".card").forEach((card) => card.classList.add("width"));
-    // }
-
-
-
-    //     if (dados.length == contador) {
-
-    //         document.querySelectorAll(".card").forEach((card) =>
-    //             card.addEventListener("click", (event) => {
-    //                 contador = 0;
-    //                 document.querySelector(".expand-card").classList.add("show");
-    //                 document.body.style.overflow = "hidden";
-    //                 const idMovies = Number(event.currentTarget.querySelector(".get-id").textContent);
-
-    //                 const newArray = ArrayListDados.filter((movie) => {
-    //                     return movie.id === idMovies;
-    //                 });
-
-    //                 this.expandCard(newArray);
-    //             })
-    //         );
-    //     }
-   
-
-
-    //     let contador = 0;
-    //     let ArrayListDados = [];
-
-    //         contador++;
-            
-
-    //         ArrayListDados.push(dado);
-           
-
-
-
-    // };
-
-
-
-    
-
-    // expandCard(dado) {
-
-    //     let favoritoAtivo = false;
-
-
-
-    //     btnFavoritos.addEventListener("click", (event) => {
-
-    //         if (!favoritoAtivo) {
-    //             btnFavoritos.classList.replace("fa-regular", "fa-solid");
-    //             this.listadefilmesFavoritados
-    //             favoritoAtivo = true;
-
-    //         } else {
-    //             btnFavoritos.classList.replace("fa-solid", "fa-regular");
-    //             favoritoAtivo = false;
-    //         }
-    //     });
-
-    //     btnFavoritos.addEventListener("mouseover", () => {
-    //       if (!favoritoAtivo) {
-    //         btnFavoritos.classList.replace("fa-regular", "fa-solid");
-    //       }
-    //     });
-
-    //     btnFavoritos.addEventListener("mouseout", () => {
-    //       if (!favoritoAtivo) {
-    //         btnFavoritos.classList.replace("fa-solid", "fa-regular");
-    //       }
-    //     });
-
-    // }
 
     async GetMovies(query) {
         const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=pt-BR`;
@@ -324,11 +285,12 @@ class DadosMovies {
 
 const buttonSearch = document.querySelector("#button-search");
 const boxSearch = document.querySelector("#query");
+const Dados = new DadosMovies();
 
 buttonSearch.addEventListener("click", (event) => {
     event.preventDefault();
     const { value } = boxSearch;
-    const Dados = new DadosMovies();
+ 
     if (value == "") {
         alert("Por favor, preencha os dados para pesquisa");
         boxSearch.focus();
