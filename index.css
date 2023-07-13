@@ -257,17 +257,17 @@ input[type="text"]:focus {
   padding: 1rem 2rem;
 }
 
-.btn-fav-off, .btn-fav-on{
+#btn-off, #btn-on{
   color: red;
   font-size: 3rem;
   cursor: pointer;
   transition: color 0.3s;
 }
 
-.btn-fav-off{
+#btn-off{
   color: white
 }
-.btn-fav-off:hover {
+#btn-off:hover {
   color: red;
 }
 i.hidden {

@@ -128,8 +128,17 @@ class DadosMovies {
     ExpandCard(card){
 
         const btnFechar = document.querySelector(".fechar");
-        const btnFavOff = document.querySelector("i.btn-fav-off");
-        const btnFavOn = document.querySelector("i.btn-fav-on");
+        const btnFavOff = document.querySelector("#btn-off");
+        const btnFavOn = document.querySelector("#btn-on");
+
+
+        if (this.listadefilmesFavoritados.findIndex(fav => fav === card.id) !== -1) {
+            btnFavOff.classList.add("hidden");
+            btnFavOn.classList.remove("hidden");
+          } else {
+            btnFavOff.classList.remove("hidden");
+            btnFavOn.classList.add("hidden");
+          }
 
         function Generos() {
             const array = Array.from(card.genero).map((gen) => {
@@ -191,13 +200,7 @@ class DadosMovies {
             return dataconvertida;
         }
 
-        if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) !== -1) {
-            btnFavOff.classList.add("hidden");
-            btnFavOn.classList.remove("hidden");
-          } else {
-            btnFavOff.classList.remove("hidden");
-            btnFavOn.classList.add("hidden");
-          }
+   
 
         document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.background}`;
         if (card.background == null) {
@@ -217,19 +220,24 @@ class DadosMovies {
         } else {
             document.querySelector(".filme-descricao").textContent = `Descrição do Filme:`;
         }
-     
+        
+
      
 
 
         btnFechar.addEventListener("click", () => {
             document.querySelector(".expand-card").classList.remove("show");
-            document.body.style.overflow = "initial";        
+            document.body.style.overflow = "initial";     
+ 
+              
         });
 
-        btnFavOff.addEventListener("click", () => {
-            if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) === -1) {
-              this.listadefilmesFavoritados.push(card);
-              this.setItemFav()
+        btnFavOff.addEventListener("click", (event) => {
+            event.preventDefault()
+            if (this.listadefilmesFavoritados.findIndex(fav => fav === card.id) === -1) {
+
+              this.listadefilmesFavoritados.push(card.id);
+              
               btnFavOff.classList.add("hidden");
               btnFavOn.classList.remove("hidden");
         
@@ -237,54 +245,57 @@ class DadosMovies {
 
           });
         
-          btnFavOn.addEventListener("click", () => {
-            const index = this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id);
-            if (index !== -1) {
-              this.listadefilmesFavoritados.splice(index, 1);
-              this.setItemFav()
-              btnFavOff.classList.remove("hidden");
-              btnFavOn.classList.add("hidden");
-    
+        btnFavOn.addEventListener("click", (event) => {
+        event.preventDefault();
+        const index = this.listadefilmesFavoritados.findIndex(fav => fav === card.id);
+
+        if (index !== -1) {
+            const novaLista = this.listadefilmesFavoritados.slice();// Cria uma cópia da array
+            novaLista.splice(index, 1); // Remove o elemento da cópia
+
+            this.listadefilmesFavoritados = novaLista;
+        
+            btnFavOff.classList.remove("hidden");
+            btnFavOn.classList.add("hidden");
+        }
+
+        });
+        
+   
+
+    }
+
+
+        async GetMovies(query) {
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=pt-BR`;
+        const loadingSpinner = document.querySelector("#loading-spinner");
+        
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const movies = data.results;
+            if (movies.length === 0) {
+            alert("Filme não encontrado");
+            boxSearch.value = "";
+            boxSearch.focus();
+            return;
             }
+            this.removeHTML()
+            // Show loading spinner
+            loadingSpinner.style.display = "block";
+            await this.GetDados(movies, movies.length);
+            boxSearch.value = "";
 
-
-          });
-          
-   
-   
-
-    }
-
-
-async GetMovies(query) {
-  const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=pt-BR`;
-  const loadingSpinner = document.querySelector("#loading-spinner");
-  
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    const movies = data.results;
-    if (movies.length === 0) {
-      alert("Filme não encontrado");
-      boxSearch.value = "";
-      boxSearch.focus();
-      return;
-    }
-    this.removeHTML()
-    // Show loading spinner
-    loadingSpinner.style.display = "block";
-    await this.GetDados(movies, movies.length);
-    boxSearch.value = "";
-
-  } catch (error) {
-    console.error("Error fetching movies:", error);
-    alert("Ocorreu um erro ao buscar os filmes. Por favor, tente novamente mais tarde.");
-  } finally {
-    // Hide loading spinner
-    
-    loadingSpinner.style.display = "none";
-  }
-}
+        } catch (error) {
+            console.error("Error fetching movies:", error);
+            alert("Ocorreu um erro ao buscar os filmes. Por favor, tente novamente mais tarde.");
+        } finally {
+            // Hide loading spinner
+            
+            loadingSpinner.style.display = "none";
+            
+        }
+        }
 }
 
 
