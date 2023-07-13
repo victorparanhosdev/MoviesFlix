@@ -229,6 +229,7 @@ class DadosMovies {
         btnFavOff.addEventListener("click", () => {
             if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) === -1) {
               this.listadefilmesFavoritados.push(card);
+              this.setItemFav()
               btnFavOff.classList.add("hidden");
               btnFavOn.classList.remove("hidden");
         
@@ -240,8 +241,10 @@ class DadosMovies {
             const index = this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id);
             if (index !== -1) {
               this.listadefilmesFavoritados.splice(index, 1);
+              this.setItemFav()
               btnFavOff.classList.remove("hidden");
               btnFavOn.classList.add("hidden");
+    
             }
 
 
