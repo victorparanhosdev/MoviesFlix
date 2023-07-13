@@ -184,7 +184,10 @@ class DadosMovies {
                     mes = "Mês inválido";
             }
 
-            const dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`;
+            let dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`;
+            if(mes == "Mês inválido"){
+             dataconvertida = `Data de Lançamento: Invalida`;
+            }
             return dataconvertida;
         }
 

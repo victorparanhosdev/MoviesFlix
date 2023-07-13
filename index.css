@@ -302,7 +302,7 @@ i.hidden {
 h1#loading-spinner {
   font-weight: bold;
   color: white;
-  animation: loading 0.5s infinite alternate;
+  animation: loading 0.4s infinite alternate;
 }
 
 @keyframes loading {
