@@ -4,11 +4,18 @@ import { apiKey } from "./apiKey.js";
 class DadosMovies {
     constructor() {
         this.load()
+      
     }
 
     load() {
         this.DadosFilms = JSON.parse(localStorage.getItem('@filmes:')) || []
         this.listadefilmesFavoritados = JSON.parse(localStorage.getItem('@favoritos:')) || []
+
+        if(this.listadefilmesFavoritados.length > 0){
+          document.querySelector(".favoritados").classList.add("show")
+        }else {
+          document.querySelector(".favoritados").classList.add("remove")
+        }
     }
     
     setItemFav(){
@@ -114,6 +121,7 @@ class DadosMovies {
                 document.querySelector(".expand-card").classList.add("show");
                 document.body.style.overflow = "hidden";
                 this.ExpandCard(card)
+                
             })
             document.querySelector("#movies").append(row);
         
@@ -126,6 +134,7 @@ class DadosMovies {
 
     }
     ExpandCard(card){
+
 
         const btnFechar = document.querySelector(".fechar");
         const btnFavOff = document.querySelector("i.btn-fav-off");
@@ -191,6 +200,8 @@ class DadosMovies {
             return dataconvertida;
         }
 
+ 
+
         if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) !== -1) {
             btnFavOff.classList.add("hidden");
             btnFavOn.classList.remove("hidden");
@@ -223,13 +234,15 @@ class DadosMovies {
 
         btnFechar.addEventListener("click", () => {
             document.querySelector(".expand-card").classList.remove("show");
-            document.body.style.overflow = "initial";        
+            document.body.style.overflow = "initial";
+       
         });
 
         btnFavOff.addEventListener("click", () => {
             if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) === -1) {
               this.listadefilmesFavoritados.push(card);
               this.setItemFav()
+              this.load()
               btnFavOff.classList.add("hidden");
               btnFavOn.classList.remove("hidden");
         
@@ -237,19 +250,7 @@ class DadosMovies {
 
           });
         
-          btnFavOn.addEventListener("click", () => {
-            const index = this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id);
-            if (index !== -1) {
-              this.listadefilmesFavoritados.splice(index, 1);
-              this.setItemFav()
-              btnFavOff.classList.remove("hidden");
-              btnFavOn.classList.add("hidden");
-    
-            }
 
-
-          });
-          
    
    
 
