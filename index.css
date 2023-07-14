@@ -111,11 +111,11 @@ input[type="text"]:focus {
 
 }
 
-.card.width, .card.widthh {
+.card.width {
   max-width: 29rem;
 }
 
-.card.widthh .card-img {
+.card.width .card-img {
   height: auto;
 }
 
@@ -124,7 +124,7 @@ input[type="text"]:focus {
 }
 
 .card-img {
-  height: 30rem;
+  height: 27rem;
 }
 
 .card img {
@@ -326,6 +326,7 @@ h1#loading-spinner {
   .card .card-img {
     height: auto;
   }
+
   .card {
     width: 95%;
   }
