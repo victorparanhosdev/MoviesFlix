@@ -1,10 +1,11 @@
 import { apiKey } from "./apiKey.js";
 
+
 class DadosMovies {
     constructor() {
         this.load()
     }
-    
+
     load() {
         this.DadosFilms = JSON.parse(localStorage.getItem('@filmes:')) || []
         this.listadefilmesFavoritados = JSON.parse(localStorage.getItem('@favoritos:')) || []
@@ -16,6 +17,7 @@ class DadosMovies {
     setItemFilm(){
         localStorage.setItem('@filmes:', JSON.stringify(this.DadosFilms))
     }
+
     createHTML() {
         const div = document.createElement("div");
         div.classList.add("card");
@@ -32,6 +34,7 @@ class DadosMovies {
             <span class="get-id">2018</span>
           </p>
         </div>`;
+
         return div;
     }
     removeHTML() {
@@ -40,6 +43,8 @@ class DadosMovies {
     async GetDados(dados, tamanho) {
         let contador = 0;
         let ArrayListDados = []
+
+
         for(let extrairID of dados){
             const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey}&language=pt-BR`;
             const blocoDeInfo = await fetch(url).then((res) => res.json()).then(({ backdrop_path, genres, id, original_language, overview, poster_path, release_date, title, }) => {
@@ -55,19 +60,26 @@ class DadosMovies {
                 });
             });
          
+
             ArrayListDados.push(blocoDeInfo)
             contador++
             
+
             if(contador == tamanho){
                 this.DadosFilms = ArrayListDados
                 this.setItemFilm()            
                 this.fazeroHTML()
                 
             }
+
             
         }
         
+
+
+
     }
+
     fazeroHTML(){
  
          this.DadosFilms.forEach(card => {
@@ -92,6 +104,7 @@ class DadosMovies {
                 }
                 return `${dataconvertida}`;
             }
+
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${card.capadofilme}`;
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${card.titulo}`;
             row.querySelector(".movie-title").textContent = card.titulo;
@@ -104,185 +117,189 @@ class DadosMovies {
             })
             document.querySelector("#movies").append(row);
         
+
+
         })
      
+
        
 
     }
     ExpandCard(card){
 
-      const btnFechar = document.querySelector(".fechar");
-      this.load()
-      const btnFavOff = document.querySelector("#btn-off");
-      const btnFavOn = document.querySelector("#btn-on");
+        const btnFechar = document.querySelector(".fechar");
+        const btnFavOff = document.querySelector("i.btn-fav-off");
+        const btnFavOn = document.querySelector("i.btn-fav-on");
 
-      if (this.listadefilmesFavoritados.findIndex(fav => fav === card.id) !== -1) {
-          btnFavOff.classList.add("hidden");
-          btnFavOn.classList.remove("hidden");
-        } else {
-          btnFavOff.classList.remove("hidden");
-          btnFavOn.classList.add("hidden");
+        function Generos() {
+            const array = Array.from(card.genero).map((gen) => {
+                return " " + gen.name;
+            });
+
+            return array;
         }
-      function Generos() {
-          const array = Array.from(card.genero).map((gen) => {
-              return " " + gen.name;
-          });
-          return array;
-      }
-      function DatadeLancamento() {
-          let data = card.datadelancamento.split("-");
-          let [ano, mes, dia] = data;
-          switch (Number(mes)) {
-              case 1:
-                  mes = "Janeiro";
-                  break;
-              case 2:
-                  mes = "Fevereiro";
-                  break;
-              case 3:
-                  mes = "Março";
-                  break;
-              case 4:
-                  mes = "Abril";
-                  break;
-              case 5:
-                  mes = "Maio";
-                  break;
-              case 6:
-                  mes = "Junho";
-                  break;
-              case 7:
-                  mes = "Julho";
-                  break;
-              case 8:
-                  mes = "Agosto";
-                  break;
-              case 9:
-                  mes = "Setembro";
-                  break;
-              case 10:
-                  mes = "Outubro";
-                  break;
-              case 11:
-                  mes = "Novembro";
-                  break;
-              case 12:
-                  mes = "Dezembro";
-                  break;
-              default:
-                  mes = "Mês inválido";
-          }
-          let dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`;
-          if(mes == "Mês inválido"){
-           dataconvertida = `Data de Lançamento: Invalida`;
-          }
-          return dataconvertida;
-      }
- 
-      document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.background}`;
-      if (card.background == null) {
-          document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.capadofilme}`;
-          const elemento = document.querySelector(".filme-card img");
-          Object.assign(elemento.style, {
-              maxHeight: "38rem",
-          });
-      }
-      document.querySelector(".filme-card img").alt = `Foto do filme ${card.titulo}`;
-      document.querySelector(".filme-titulo").textContent = card.titulo;
-      document.querySelector(".filme-genero").textContent = `Gênero: ${Generos()}`;
-      document.querySelector(".filme-lancamento").textContent = `${DatadeLancamento()}`;
-      document.querySelector(".filme-descricao-span").textContent = `${card.descricao}`;
-      if (card.descricao == "") {
-          document.querySelector(".filme-descricao").textContent = `Sem Descrição`;
-      } else {
-          document.querySelector(".filme-descricao").textContent = `Descrição do Filme:`;
-      }
-      
 
+        function DatadeLancamento() {
+            let data = card.datadelancamento.split("-");
+            let [ano, mes, dia] = data;
 
+            switch (Number(mes)) {
+                case 1:
+                    mes = "Janeiro";
+                    break;
+                case 2:
+                    mes = "Fevereiro";
+                    break;
+                case 3:
+                    mes = "Março";
+                    break;
+                case 4:
+                    mes = "Abril";
+                    break;
+                case 5:
+                    mes = "Maio";
+                    break;
+                case 6:
+                    mes = "Junho";
+                    break;
+                case 7:
+                    mes = "Julho";
+                    break;
+                case 8:
+                    mes = "Agosto";
+                    break;
+                case 9:
+                    mes = "Setembro";
+                    break;
+                case 10:
+                    mes = "Outubro";
+                    break;
+                case 11:
+                    mes = "Novembro";
+                    break;
+                case 12:
+                    mes = "Dezembro";
+                    break;
+                default:
+                    mes = "Mês inválido";
+            }
 
-      btnFechar.addEventListener("click", () => {
-      btnFechar.addEventListener("click", (event) => {
-          event.preventDefault()
-          document.querySelector(".expand-card").classList.remove("show");
-          document.body.style.overflow = "initial";     
-          document.body.style.overflow = "initial";   
-          this.setItemFav()
-          this.load()
+            let dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`;
+            if(mes == "Mês inválido"){
+             dataconvertida = `Data de Lançamento: Invalida`;
+            }
+            return dataconvertida;
+        }
 
-
-
-      })});
-
-
-      btnFavOff.addEventListener("click", (event) => {
-          event.preventDefault()
-          if (this.listadefilmesFavoritados.findIndex(fav => fav === card.id) === -1) {
-            this.listadefilmesFavoritados.push(card.id);
-            
+        if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) !== -1) {
             btnFavOff.classList.add("hidden");
             btnFavOn.classList.remove("hidden");
-      
+          } else {
+            btnFavOff.classList.remove("hidden");
+            btnFavOn.classList.add("hidden");
           }
+
+        document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.background}`;
+        if (card.background == null) {
+            document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.capadofilme}`;
+            const elemento = document.querySelector(".filme-card img");
+            Object.assign(elemento.style, {
+                maxHeight: "38rem",
+            });
+        }
+        document.querySelector(".filme-card img").alt = `Foto do filme ${card.titulo}`;
+        document.querySelector(".filme-titulo").textContent = card.titulo;
+        document.querySelector(".filme-genero").textContent = `Gênero: ${Generos()}`;
+        document.querySelector(".filme-lancamento").textContent = `${DatadeLancamento()}`;
+        document.querySelector(".filme-descricao-span").textContent = `${card.descricao}`;
+        if (card.descricao == "") {
+            document.querySelector(".filme-descricao").textContent = `Sem Descrição`;
+        } else {
+            document.querySelector(".filme-descricao").textContent = `Descrição do Filme:`;
+        }
+     
+     
+
+
+        btnFechar.addEventListener("click", () => {
+            document.querySelector(".expand-card").classList.remove("show");
+            document.body.style.overflow = "initial";        
         });
-      
-      btnFavOn.addEventListener("click", (event) => {
-      event.preventDefault();
-      const index = this.listadefilmesFavoritados.findIndex(fav => fav === card.id);
-      if (index !== -1) {
-          const novaLista = this.listadefilmesFavoritados.slice();// Cria uma cópia da array
-          novaLista.splice(index, 1); // Remove o elemento da cópia
-          this.listadefilmesFavoritados = novaLista;
-      
-          btnFavOff.classList.remove("hidden");
-          btnFavOn.classList.add("hidden");
-      }
-      });
-      
- 
+
+        btnFavOff.addEventListener("click", () => {
+            if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) === -1) {
+              this.listadefilmesFavoritados.push(card);
+              this.setItemFav()
+              btnFavOff.classList.add("hidden");
+              btnFavOn.classList.remove("hidden");
+        
+            }
+
+          });
+        
+          btnFavOn.addEventListener("click", () => {
+            const index = this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id);
+            if (index !== -1) {
+              this.listadefilmesFavoritados.splice(index, 1);
+              this.setItemFav()
+              btnFavOff.classList.remove("hidden");
+              btnFavOn.classList.add("hidden");
+    
+            }
+
+
+          });
+          
+   
+   
+
+    }
+
+
+async GetMovies(query) {
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=pt-BR`;
+  const loadingSpinner = document.querySelector("#loading-spinner");
+  
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const movies = data.results;
+    if (movies.length === 0) {
+      alert("Filme não encontrado");
+      boxSearch.value = "";
+      boxSearch.focus();
+      return;
+    }
+    this.removeHTML()
+    // Show loading spinner
+    loadingSpinner.style.display = "block";
+    await this.GetDados(movies, movies.length);
+    boxSearch.value = "";
+
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    alert("Ocorreu um erro ao buscar os filmes. Por favor, tente novamente mais tarde.");
+  } finally {
+    // Hide loading spinner
+    
+    loadingSpinner.style.display = "none";
   }
-      async GetMovies(query) {
-      const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=pt-BR`;
-      const loadingSpinner = document.querySelector("#loading-spinner");
-      
-      try {
-          const response = await fetch(url);
-          const data = await response.json();
-          const movies = data.results;
-          if (movies.length === 0) {
-          alert("Filme não encontrado");
-          boxSearch.value = "";
-          boxSearch.focus();
-          return;
-          }
-          this.removeHTML()
-          // Show loading spinner
-          loadingSpinner.style.display = "block";
-          await this.GetDados(movies, movies.length);
-          boxSearch.value = "";
-      } catch (error) {
-          console.error("Error fetching movies:", error);
-          alert("Ocorreu um erro ao buscar os filmes. Por favor, tente novamente mais tarde.");
-      } finally {
-          // Hide loading spinner
-          
-          loadingSpinner.style.display = "none";
-          
-      }
-      }
 }
+}
+
+
 const buttonSearch = document.querySelector("#button-search");
 const boxSearch = document.querySelector("#query");
 const Dados = new DadosMovies();
-buttonSearch.addEventListener("click", (event) => {
-  event.preventDefault();
-  const { value } = boxSearch;
 
-  if (value == "") {
-      alert("Por favor, preencha os dados para pesquisa");
-      boxSearch.focus();
-      return;
-  }
-  Dados.GetMovies(value);
+buttonSearch.addEventListener("click", (event) => {
+    event.preventDefault();
+    const { value } = boxSearch;
+ 
+    if (value == "") {
+        alert("Por favor, preencha os dados para pesquisa");
+        boxSearch.focus();
+        return;
+    }
+    Dados.GetMovies(value);
 });
-    
