@@ -21,22 +21,44 @@ class DadosMovies {
     createHTML() {
         const div = document.createElement("div");
         div.classList.add("card");
-        div.innerHTML = `<div class="card-img">
-        <img src="https://image.tmdb.org/t/p/w200/ybQSBSrINtjWsJQ6Ih8sva8HlEZ.jpg"
-          alt="Imagem do filme Homem-Aranha: No Aranhaverso">
-      </div>
-      <div class="card-content">
-        <h2 class="movie-title">Homem-Aranha: No Aranhaverso</h2>
-        <div class="box-movie-legend">
-          <p class="movie-details">
-            <span class="movie-type">Ação, Aventura, Animação, Ficção científica</span>
-            <span class="movie-release">2018</span>
-            <span class="get-id">2018</span>
-          </p>
-        </div>`;
-
+        div.innerHTML = `
+          <div class="card-img">
+            <img src="https://image.tmdb.org/t/p/w200/ybQSBSrINtjWsJQ6Ih8sva8HlEZ.jpg"
+              alt="Imagem do filme Homem-Aranha: No Aranhaverso">
+          </div>
+          <div class="card-content">
+            <h2 class="movie-title">Homem-Aranha: No Aranhaverso</h2>
+            <div class="box-movie-legend">
+              <p class="movie-details">
+                <span class="movie-type">Ação, Aventura, Animação, Ficção científica</span>
+                <span class="movie-release">2018</span>
+                <span class="get-id">2018</span>
+              </p>
+            </div>
+          </div>
+          <div class="expand-card">
+            <div class="filme-card">
+              <div class="botoes">
+                <i class="fa-sharp fa-regular fa-heart btn-fav-off"></i>
+                <i class="fa-sharp fa-solid fa-heart btn-fav-on hidden"></i>
+                <i class="fa-solid fa-xmark fechar"></i>
+              </div>
+              <img src="" alt="foto do filme">
+              <div class="container-info">
+                <h2 class="filme-titulo">Título do Filme</h2>
+                <p class="filme-genero">Gênero: Ação, Aventura</p>
+                <p class="filme-lancamento">Data de Lançamento: 25 de dezembro de 2022</p>
+                <p class="filme-descricao">Descrição do Filme:</p>
+                <span class="filme-descricao-span">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit rem fugit
+                  accusantium quis voluptatem, quae obcaecati consectetur accusamus, voluptas eius, mollitia architecto deleniti
+                  ipsa fuga? Quaerat beatae praesentium quod vero.</span>
+              </div>
+            </div>
+          </div>
+        `;
+    
         return div;
-    }
+      }
     removeHTML() {
         document.querySelectorAll("#movies .card").forEach((card) => card.remove());
     }
@@ -69,26 +91,29 @@ class DadosMovies {
                 this.DadosFilms = ArrayListDados
                 this.setItemFilm()            
                 this.fazeroHTML()
+              
                 
             }
 
             
         }
-        
+
 
 
 
     }
 
+
     fazeroHTML(){
+
+        const moviesContainer = document.querySelector("#movies");
+
  
          this.DadosFilms.forEach(card => {
             let row = this.createHTML();
-  
             if (card.capadofilme == null) {
                 return
             }
-            
             function GeneneroSelected(genero) {
                 const lista = Array.from(genero).map((Ongenero) => {
                     return " " + Ongenero.name;
@@ -104,21 +129,100 @@ class DadosMovies {
                 }
                 return `${dataconvertida}`;
             }
+            function Generos() {
+                const array = Array.from(card.genero).map((gen) => {
+                    return " " + gen.name;
+                });
+    
+                return array;
+            }
+    
+            function DatadeLancamento() {
+                let data = card.datadelancamento.split("-");
+                let [ano, mes, dia] = data;
+    
+                switch (Number(mes)) {
+                    case 1:
+                        mes = "Janeiro";
+                        break;
+                    case 2:
+                        mes = "Fevereiro";
+                        break;
+                    case 3:
+                        mes = "Março";
+                        break;
+                    case 4:
+                        mes = "Abril";
+                        break;
+                    case 5:
+                        mes = "Maio";
+                        break;
+                    case 6:
+                        mes = "Junho";
+                        break;
+                    case 7:
+                        mes = "Julho";
+                        break;
+                    case 8:
+                        mes = "Agosto";
+                        break;
+                    case 9:
+                        mes = "Setembro";
+                        break;
+                    case 10:
+                        mes = "Outubro";
+                        break;
+                    case 11:
+                        mes = "Novembro";
+                        break;
+                    case 12:
+                        mes = "Dezembro";
+                        break;
+                    default:
+                        mes = "Mês inválido";
+                }
+    
+                let dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`;
+                if(mes == "Mês inválido"){
+                 dataconvertida = `Data de Lançamento: Invalida`;
+                }
+                return dataconvertida;
+            }
 
             row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${card.capadofilme}`;
             row.querySelector(".card:has(img) img").alt = `Imagem do filme ${card.titulo}`;
             row.querySelector(".movie-title").textContent = card.titulo;
             row.querySelector(".movie-type").textContent = `${(GeneneroSelected(card.genero)) || "Desconhecido"}`;
             row.querySelector(".movie-release").textContent = `${converterData(card.datadelancamento)}`;
-            row.addEventListener("click", ()=> {
-                document.querySelector(".expand-card").classList.add("show");
+
+            row.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.background}`;
+            if (card.background == null) {
+                row.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.capadofilme}`;
+                const elemento = row.querySelector(".filme-card img");
+                Object.assign(elemento.style, {
+                    maxHeight: "38rem",
+                });
+            }
+            row.querySelector(".filme-card img").alt = `Foto do filme ${card.titulo}`;
+            row.querySelector(".filme-titulo").textContent = card.titulo;
+            row.querySelector(".filme-genero").textContent = `Gênero: ${Generos()}`;
+            row.querySelector(".filme-lancamento").textContent = `${DatadeLancamento()}`;
+            row.querySelector(".filme-descricao-span").textContent = `${card.descricao}`;
+            if (card.descricao == "") {
+                row.querySelector(".filme-descricao").textContent = `Sem Descrição`;
+            } else {
+                row.querySelector(".filme-descricao").textContent = `Descrição do Filme:`;
+            }
+     
+            moviesContainer.appendChild(row)
+                   
+            row.addEventListener("click", (event)=> {
+                
+                event.currentTarget.querySelector(".expand-card").classList.add("show");
                 document.body.style.overflow = "hidden";
                 this.ExpandCard(card)
+                
             })
-            document.querySelector("#movies").append(row);
-        
-
-
         })
      
 
@@ -126,122 +230,40 @@ class DadosMovies {
 
     }
     ExpandCard(card){
-        this.load()
-        const btnFechar = document.querySelector("#fechar");
-        const btnFavOff = document.querySelector("#btn-off");
-        const btnFavOn = document.querySelector("#btn-on");
+        const btnFechars = document.querySelectorAll(".fechar");
+        const btnFavOff = document.querySelector(".btn-fav-off");
+        const btnFavOn = document.querySelector(".btn-fav-on");
 
-
-        if (this.listadefilmesFavoritados.findIndex(fav => fav === card.id) !== -1) {
+        if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) !== -1) {
             btnFavOff.classList.add("hidden");
             btnFavOn.classList.remove("hidden");
-          } else {
+        } else {
             btnFavOff.classList.remove("hidden");
             btnFavOn.classList.add("hidden");
-          }
+        } 
 
-        function Generos() {
-            const array = Array.from(card.genero).map((gen) => {
-                return " " + gen.name;
-            });
-
-            return array;
-        }
-
-        function DatadeLancamento() {
-            let data = card.datadelancamento.split("-");
-            let [ano, mes, dia] = data;
-
-            switch (Number(mes)) {
-                case 1:
-                    mes = "Janeiro";
-                    break;
-                case 2:
-                    mes = "Fevereiro";
-                    break;
-                case 3:
-                    mes = "Março";
-                    break;
-                case 4:
-                    mes = "Abril";
-                    break;
-                case 5:
-                    mes = "Maio";
-                    break;
-                case 6:
-                    mes = "Junho";
-                    break;
-                case 7:
-                    mes = "Julho";
-                    break;
-                case 8:
-                    mes = "Agosto";
-                    break;
-                case 9:
-                    mes = "Setembro";
-                    break;
-                case 10:
-                    mes = "Outubro";
-                    break;
-                case 11:
-                    mes = "Novembro";
-                    break;
-                case 12:
-                    mes = "Dezembro";
-                    break;
-                default:
-                    mes = "Mês inválido";
-            }
-
-            let dataconvertida = `Data de Lançamento: ${dia} de ${mes} de ${ano}`;
-            if(mes == "Mês inválido"){
-             dataconvertida = `Data de Lançamento: Invalida`;
-            }
-            return dataconvertida;
-        }
-
-   
-
-        document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.background}`;
-        if (card.background == null) {
-            document.querySelector(".filme-card img").src = `https://image.tmdb.org/t/p/w500${card.capadofilme}`;
-            const elemento = document.querySelector(".filme-card img");
-            Object.assign(elemento.style, {
-                maxHeight: "38rem",
-            });
-        }
-        document.querySelector(".filme-card img").alt = `Foto do filme ${card.titulo}`;
-        document.querySelector(".filme-titulo").textContent = card.titulo;
-        document.querySelector(".filme-genero").textContent = `Gênero: ${Generos()}`;
-        document.querySelector(".filme-lancamento").textContent = `${DatadeLancamento()}`;
-        document.querySelector(".filme-descricao-span").textContent = `${card.descricao}`;
-        if (card.descricao == "") {
-            document.querySelector(".filme-descricao").textContent = `Sem Descrição`;
-        } else {
-            document.querySelector(".filme-descricao").textContent = `Descrição do Filme:`;
-        }
-        
 
      
+        btnFechars.forEach(btnFechar => {
 
-
-        btnFechar.addEventListener("click", (event) => {
-            event.preventDefault()
-            document.querySelector(".expand-card").classList.remove("show");
-            document.body.style.overflow = "initial";   
-            this.setItemFav()
-            this.load()
-
- 
-              
-        });
+            btnFechar.addEventListener("click", (event) => {
+                console.log("entrei")
+                const elemento = event.target.parentNode.parentNode.parentNode;
+                console.log(elemento)
+                elemento.classList.remove("show")
+                document.body.style.overflow = "initial";  
+                        
+    
+                  
+            });
+        })
 
         btnFavOff.addEventListener("click", (event) => {
             event.preventDefault()
-            if (this.listadefilmesFavoritados.findIndex(fav => fav === card.id) === -1) {
 
-              this.listadefilmesFavoritados.push(card.id);
-              
+            if (this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id) === -1) {
+              this.listadefilmesFavoritados = [card, ...this.listadefilmesFavoritados];
+              console.log("essa é a lista favoritada", this.listadefilmesFavoritados)
               btnFavOff.classList.add("hidden");
               btnFavOn.classList.remove("hidden");
         
@@ -251,14 +273,18 @@ class DadosMovies {
         
         btnFavOn.addEventListener("click", (event) => {
         event.preventDefault();
-        const index = this.listadefilmesFavoritados.findIndex(fav => fav === card.id);
+        const index = this.listadefilmesFavoritados.findIndex(fav => fav.id === card.id);
 
         if (index !== -1) {
-            const novaLista = this.listadefilmesFavoritados.slice();// Cria uma cópia da array
-            novaLista.splice(index, 1); // Remove o elemento da cópia
+            const novaLista = this.listadefilmesFavoritados.filter(data => {
+              return data.id !== card.id
+            });// Cria uma cópia da array
+           
 
             this.listadefilmesFavoritados = novaLista;
-        
+            this.setItemFav()
+            console.log("essa é a lista desfavoritada",this.listadefilmesFavoritados)
+            //this.setItemFav()
             btnFavOff.classList.remove("hidden");
             btnFavOn.classList.add("hidden");
         }
