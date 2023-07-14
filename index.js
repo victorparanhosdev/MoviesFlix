@@ -59,6 +59,7 @@ class DadosMovies {
           </div>
         `;
 
+<<<<<<< HEAD
     return div;
   }
   removeHTML() {
@@ -92,6 +93,102 @@ class DadosMovies {
               datadelancamento: release_date,
               titulo: title,
             };
+=======
+
+        for(let extrairID of dados){
+            const url = `https://api.themoviedb.org/3/movie/${extrairID.id}?api_key=${apiKey}&language=pt-BR`;
+            const blocoDeInfo = await fetch(url).then((res) => res.json()).then(({ backdrop_path, genres, id, original_language, overview, poster_path, release_date, title, }) => {
+                return ({
+                    background: backdrop_path,
+                    genero: genres,
+                    id: id,
+                    lingua: original_language,
+                    descricao: overview,
+                    capadofilme: poster_path,
+                    datadelancamento: release_date,
+                    titulo: title,
+                });
+            });
+         
+
+            ArrayListDados.push(blocoDeInfo)
+            contador++
+            
+
+            if(contador == tamanho){
+                this.DadosFilms = ArrayListDados
+                this.setItemFilm()            
+                this.fazeroHTML()
+                
+            }
+
+            
+        }
+        
+
+
+
+    }
+
+    fazeroHTML(){
+ 
+         this.DadosFilms.forEach(card => {
+            let row = this.createHTML();
+  
+            if (card.capadofilme == null) {
+                return
+            }
+            
+            function GeneneroSelected(genero) {
+                const lista = Array.from(genero).map((Ongenero) => {
+                    return " " + Ongenero.name;
+                });
+                return lista;
+            }
+            function converterData(valor) {
+                let dateTime = valor.split("-");
+                let [ano, mes, dia] = dateTime;
+                let dataconvertida = `${ano}`;
+                if (ano == undefined) {
+                    return "";
+                }
+                return `${dataconvertida}`;
+            }
+
+            row.querySelector(".card:has(img) img").src = `https://image.tmdb.org/t/p/w200${card.capadofilme}`;
+            row.querySelector(".card:has(img) img").alt = `Imagem do filme ${card.titulo}`;
+            row.querySelector(".movie-title").textContent = card.titulo;
+            row.querySelector(".movie-type").textContent = `${(GeneneroSelected(card.genero)) || "Desconhecido"}`;
+            row.querySelector(".movie-release").textContent = `${converterData(card.datadelancamento)}`;
+            row.addEventListener("click", ()=> {
+                document.querySelector(".expand-card").classList.add("show");
+                document.body.style.overflow = "hidden";
+                this.ExpandCard(card)
+            })
+            document.querySelector("#movies").append(row);
+        
+
+
+        })
+     
+
+       
+
+    }
+    ExpandCard(card){
+
+        const btnFechar = document.querySelector(".fechar");
+        const btnFavOff = document.querySelector("#btn-off");
+        const btnFavOn = document.querySelector("#btn-on");
+
+
+        if (this.listadefilmesFavoritados.findIndex(fav => fav === card.id) !== -1) {
+            btnFavOff.classList.add("hidden");
+            btnFavOn.classList.remove("hidden");
+          } else {
+            btnFavOff.classList.remove("hidden");
+            btnFavOn.classList.add("hidden");
+>>>>>>> parent of 3555c02 (add)
           }
         );
       ArrayListDados.push(blocoDeInfo);
@@ -234,7 +331,16 @@ class DadosMovies {
    
 
 
+<<<<<<< HEAD
 
+=======
+     
+
+
+        btnFechar.addEventListener("click", () => {
+            document.querySelector(".expand-card").classList.remove("show");
+            document.body.style.overflow = "initial";     
+>>>>>>> parent of 3555c02 (add)
  
 
   }
