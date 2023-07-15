@@ -111,7 +111,8 @@ input[type="text"]:focus {
 
 }
 
-.card.width, .card.widthh {
+.card.width,
+.card.widthh {
   max-width: 29rem;
 }
 
@@ -257,30 +258,40 @@ input[type="text"]:focus {
   padding: 1rem 2rem;
 }
 
-.btn-fav-off, .btn-fav-on{
+.btn-fav-off,
+.btn-fav-on,
+.botaoOF,
+.botaoON {
   color: red;
   font-size: 3rem;
   cursor: pointer;
   transition: color 0.3s;
 }
 
-.btn-fav-off{
+.btn-fav-off,
+.botaoOF {
   color: white
 }
-.btn-fav-off:hover {
+
+.btn-fav-off:hover,
+.botaoOF:hover {
   color: red;
 }
+
 i.hidden {
   display: none;
 }
-.fechar {
+
+.fechar,
+.fechando {
   cursor: pointer;
   transition: color .3s;
   font-size: 3.5rem;
 
 }
 
-.fechar:hover {
+.fechar:hover,
+.fechando:hover {
   color: red;
 }
 
@@ -298,23 +309,33 @@ i.hidden {
   background: hsl(217, 40%, 36%);
 }
 
-
-h1#loading-spinner {
-  font-weight: bold;
-  color: white;
-  animation: loading 0.4s infinite alternate;
+.box-loading {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
 }
 
-@keyframes loading {
+.loading {
+  width: clamp(12rem, 3vw + 10rem, 20rem);
+  height: clamp(12rem, 3vw + 10rem, 20rem);
+  border: 1rem solid hsla(0, 0%, 100%, 0.10);
+  border-top: 1rem solid hsl(217, 40%, 26%);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
   0% {
-    opacity: 0.5;
+    transform: rotate(0deg);
   }
+
   100% {
-    opacity: 1;
+    transform: rotate(360deg);
   }
 }
 
-.favoritados{
+.favoritados {
   bottom: 2rem;
   right: 2rem;
   position: fixed;
@@ -322,11 +343,12 @@ h1#loading-spinner {
   color: hsl(0, 100%, 30%);
   font-size: clamp(4rem, 7vw + 1rem, 5rem);
   cursor: pointer;
-  transition: all 0.5s;
+
   opacity: 0;
   visibility: hidden;
-  animation: heartBeat 1.5s infinite;
+  animation: heartBeat 5s infinite;
 }
+
 .favoritados.show {
   opacity: 1;
   visibility: visible;
@@ -334,30 +356,27 @@ h1#loading-spinner {
 
 }
 
-.favoritados:hover {
- color: hsl(0, 100%, 50%);
-
-}
 
 @keyframes heartBeat {
   0% {
-    transform: scale(1);
+
     color: hsl(0, 100%, 30%);
   }
+
   25% {
-    transform: scale(1.2);
     color: hsl(0, 100%, 40%);
   }
+
   50% {
-    transform: scale(1);
     color: hsl(0, 100%, 30%);
   }
+
   75% {
-    transform: scale(1.2);
     color: hsl(0, 100%, 40%);
   }
+
   100% {
-    transform: scale(1);
+
     color: hsl(0, 100%, 30%);
   }
 }
@@ -372,6 +391,7 @@ h1#loading-spinner {
   .card .card-img {
     height: auto;
   }
+
   .card {
     width: 95%;
   }
