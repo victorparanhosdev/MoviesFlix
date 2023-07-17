@@ -16,7 +16,7 @@ Consumo de API's do TMDb
 ## 🔖 Layout
 
 <h1 align="center">
-    <img alt="Layout" src="assets/layout-page.jpg" width="100%">
+    <img alt="Layout" src="./layout-page.jpg" width="100%">
 </h1>
 
 
