@@ -16,7 +16,7 @@ Totalmente Responsivo (Versao Desktop e Mobile)
 ## 🔖 Layout
 
 <h1 align="center">
-    <img alt="Layout" src="./layout-page.jpg" width="100%">
+    <img alt="Layout" src="./assets/layout-page.jpg" width="100%">
 </h1>
 
 ## 🔖 Sobre o Projeto
