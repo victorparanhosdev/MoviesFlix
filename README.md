@@ -9,7 +9,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 ## 💻 Projeto MoviesFlix
 
 Totalmente Responsivo (Versao Desktop e Mobile)
-Consumo de API's do TMDb
+- Consumo de API's do TMDb
 - Icones Fontawesome
 - Fontes Google
 
